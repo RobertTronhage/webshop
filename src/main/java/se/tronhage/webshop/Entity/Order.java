@@ -11,7 +11,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Product> orderedProducts;
+    @OneToOne
+    @JoinColumn(name = "shopping_basket_id")
+    private ShoppingBasket shoppingBasket;
 
 }

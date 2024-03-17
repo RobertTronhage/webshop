@@ -11,6 +11,9 @@ public class ShoppingBasket {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @OneToOne(mappedBy = "shoppingBasket")
+    private User user;
+
     @OneToMany(mappedBy = "shoppingBasket", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<BasketItem> items;
 

@@ -12,8 +12,12 @@ import java.util.List;
 @Controller
 public class ProductController {
 
+    private final ProductRepo productRepo;
+
     @Autowired
-    ProductRepo productRepo;
+    public ProductController(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }
 
     @GetMapping("/products")
     public String listProducts(Model m){
