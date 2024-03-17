@@ -3,74 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f7f7f7;
-        }
-
-        .container {
-            width: 30%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-top: 100px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            float: right;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="stylesheet" href="css/registerstyle.css">
 </head>
+
 <body>
+
 <div class="container">
+
     <h1>Register</h1>
 
     <form id="registerForm" method="post" action="/register">
-        <label for="username">Username:</label>
+
+        <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" placeholder="Enter username" required><br/>
 
-        <label for="password">Password:</label>
+        <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" placeholder="Enter password" required><br/>
 
-        <label for="confirm-password">Confirm Password:</label>
+        <label for="confirm-password">Confirm Password:</label><br>
         <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm password" required><br/>
 
-        <button type="submit">Register</button>
+        ¨<br><button type="submit">Register</button>
+
     </form>
 </div>
 </body>

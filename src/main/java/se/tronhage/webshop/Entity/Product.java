@@ -5,12 +5,12 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="products")
 public class Product {
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-private Long id;
-private String name;
-private double price;
-private String description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String name;
+    private double price;
+    private String description;
 
     public Product() {
     }
