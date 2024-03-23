@@ -16,8 +16,7 @@ public class Product {
     private double price;
     private String description;
 
-    @OneToMany(mappedBy="product")
-    private Set<BasketItem> basketItems = new HashSet<>();
+
 
     public Product() {
     }
@@ -54,42 +53,6 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Set<BasketItem> getBasketItems() {
-        return basketItems;
-    }
-
-    public void setBasketItems(Set<BasketItem> basketItems) {
-        this.basketItems = basketItems;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Product product = (Product) o;
-
-        if (Double.compare(price, product.price) != 0) return false;
-        if (!Objects.equals(id, product.id)) return false;
-        if (!Objects.equals(name, product.name)) return false;
-        if (!Objects.equals(description, product.description))
-            return false;
-        return Objects.equals(basketItems, product.basketItems);
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        temp = Double.doubleToLongBits(price);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (basketItems != null ? basketItems.hashCode() : 0);
-        return result;
     }
 
     @Override

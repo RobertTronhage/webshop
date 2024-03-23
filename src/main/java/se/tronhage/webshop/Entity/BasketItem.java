@@ -1,60 +1,15 @@
 package se.tronhage.webshop.Entity;
 
-import jakarta.persistence.*;
+import java.math.BigDecimal;
 
-@Entity
-@Table(name = "basket_items")
+// Obs! Denna klass är inte en Entity-klass och ska inte mappas till en databastabell
 public class BasketItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "basket_id")
-    private ShoppingBasket shoppingBasket;
-
+    private Long productId;
     private int quantity;
+    private long unitPrice; // Priset i ören, cent, etc.
 
-
-    public BasketItem() {
+    // Konstruktor, getters och setters
+    public long getTotalPrice() {
+        return unitPrice * quantity;
     }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public ShoppingBasket getShoppingBasket() {
-        return shoppingBasket;
-    }
-
-    public void setShoppingBasket(ShoppingBasket shoppingBasket) {
-        this.shoppingBasket = shoppingBasket;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-
 }

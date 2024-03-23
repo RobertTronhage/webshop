@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name="orders")
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,11 +23,11 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderLine> orderLines = new HashSet<>();
 
 
-    public Order() {}
+    public Orders() {}
 
     public Long getId() {
         return id;
@@ -75,14 +74,14 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Order order = (Order) o;
+        Orders orders = (Orders) o;
 
-        if (!Objects.equals(id, order.id)) return false;
-        if (!Objects.equals(orderDate, order.orderDate))
+        if (!Objects.equals(id, orders.id)) return false;
+        if (!Objects.equals(orderDate, orders.orderDate))
             return false;
-        if (!Objects.equals(status, order.status)) return false;
-        if (!Objects.equals(user, order.user)) return false;
-        return Objects.equals(orderLines, order.orderLines);
+        if (!Objects.equals(status, orders.status)) return false;
+        if (!Objects.equals(user, orders.user)) return false;
+        return Objects.equals(orderLines, orders.orderLines);
     }
 
     @Override
@@ -93,5 +92,16 @@ public class Order {
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (orderLines != null ? orderLines.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Orders{" +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", status='" + status + '\'' +
+                ", user=" + user +
+                ", orderLines=" + orderLines +
+                '}';
     }
 }

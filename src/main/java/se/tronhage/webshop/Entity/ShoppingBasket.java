@@ -1,70 +1,23 @@
 package se.tronhage.webshop.Entity;
 
-import jakarta.persistence.*;
-
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
-@Entity
-@Table(name = "shoppingbaskets")
+// Obs! Denna klass är inte en Entity-klass och ska inte mappas till en databastabell
 public class ShoppingBasket {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private List<BasketItem> items = new ArrayList<>();
 
-    @OneToOne(mappedBy = "shoppingBasket", fetch = FetchType.LAZY)
-    private User user;
-
-    @OneToMany(mappedBy = "shoppingBasket", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BasketItem> basketItems = new HashSet<>();
-
-
-    public ShoppingBasket() {
-
-    }
-    public Long getId() {
-        return id;
+    public void addItem(BasketItem item) {
+        // Implementera logiken för att lägga till en artikel
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public long getTotalPrice() {
+        long total = 0;
+        for (BasketItem item : items) {
+            total += item.getTotalPrice();
+        }
+        return total; // Totalt pris i ören, cent, etc.
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Set<BasketItem> getBasketItems() {
-        return basketItems;
-    }
-
-    public void setBasketItems(Set<BasketItem> basketItems) {
-        this.basketItems = basketItems;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ShoppingBasket that = (ShoppingBasket) o;
-
-        if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(user, that.user)) return false;
-        return Objects.equals(basketItems, that.basketItems);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (basketItems != null ? basketItems.hashCode() : 0);
-        return result;
-    }
+    // Andra metoder
 }

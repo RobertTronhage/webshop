@@ -4,7 +4,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.tronhage.webshop.Entity.ShoppingBasket;
 import se.tronhage.webshop.Entity.User;
 import se.tronhage.webshop.Enums.Role;
 import se.tronhage.webshop.Repository.UserRepo;
@@ -31,7 +30,7 @@ public class UserService {
         newUser.setEmail(email);
         newUser.setPassword(passwordEncoder.encode(password)); // Hasha lösenordet
         newUser.setRole(role);
-        newUser.setShoppingBasket(new ShoppingBasket()); // ny tom varukorg för användaren
+        //newUser.setShoppingBasket(new ShoppingBasket()); // ny tom varukorg för användaren
         return userRepo.save(newUser);
     }
 
