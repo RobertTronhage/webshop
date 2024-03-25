@@ -1,10 +1,8 @@
 package se.tronhage.webshop.Entity;
 
 import jakarta.persistence.*;
-
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="products")
@@ -12,16 +10,18 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private double price;
-    private String description;
 
+    @NotBlank(message = "Name is mandatory")
+    private String name;
+    @Min(value = 0, message = "Price must be greater than 0")
+    private int price;
+    private String description;
 
 
     public Product() {
     }
 
-    public Product(String name, double price, String description) {
+    public Product(String name, int price, String description) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -39,11 +39,11 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

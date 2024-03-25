@@ -16,8 +16,8 @@ public class Orders {
 
     private LocalDateTime orderDate;
     private String status; // Exempel: "BEKRÄFTAD", "SKICKAD", "LEVERERAD"
+    private int totalSum;
 
-    // Eventuellt andra fält som adressinformation, totalsumma, betalningsstatus etc.
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -29,28 +29,19 @@ public class Orders {
 
     public Orders() {}
 
+    public Orders(LocalDateTime orderDate, String status, int totalSum, User user) {
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalSum = totalSum;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Set<OrderLine> getOrderLines() {
-        return orderLines;
-    }
-
-    public void setOrderLines(Set<OrderLine> orderLines) {
-        this.orderLines = orderLines;
     }
 
     public LocalDateTime getOrderDate() {
@@ -69,6 +60,30 @@ public class Orders {
         this.status = status;
     }
 
+    public int getTotalSum() {
+        return totalSum;
+    }
+
+    public void setTotalSum(int totalSum) {
+        this.totalSum = totalSum;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(Set<OrderLine> orderLines) {
+        this.orderLines = orderLines;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,10 +91,12 @@ public class Orders {
 
         Orders orders = (Orders) o;
 
+        if (totalSum != orders.totalSum) return false;
         if (!Objects.equals(id, orders.id)) return false;
         if (!Objects.equals(orderDate, orders.orderDate))
             return false;
-        if (!Objects.equals(status, orders.status)) return false;
+        if (!Objects.equals(status, orders.status))
+            return false;
         if (!Objects.equals(user, orders.user)) return false;
         return Objects.equals(orderLines, orders.orderLines);
     }
@@ -89,6 +106,7 @@ public class Orders {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + totalSum;
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (orderLines != null ? orderLines.hashCode() : 0);
         return result;
@@ -100,6 +118,7 @@ public class Orders {
                 "id=" + id +
                 ", orderDate=" + orderDate +
                 ", status='" + status + '\'' +
+                ", totalSum=" + totalSum +
                 ", user=" + user +
                 ", orderLines=" + orderLines +
                 '}';
