@@ -24,7 +24,7 @@ public class ShoppingBasket {
         for (BasketItem item : items) {
             total += item.getTotalPrice();
         }
-        return total; // Totalt pris i ören, cent, etc.
+        return total;
     }
 
     public void removeItem(Long productId, int quantity) {
