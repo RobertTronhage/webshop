@@ -1,4 +1,4 @@
-package se.tronhage.webshop.Services;
+package se.tronhage.webshop.services;
 
 import org.springframework.stereotype.Service;
 

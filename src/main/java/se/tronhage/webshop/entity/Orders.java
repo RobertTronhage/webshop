@@ -1,4 +1,4 @@
-package se.tronhage.webshop.Entity;
+package se.tronhage.webshop.entity;
 
 import jakarta.persistence.*;
 

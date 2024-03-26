@@ -1,11 +1,11 @@
-package se.tronhage.webshop.Controller;
+package se.tronhage.webshop.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import se.tronhage.webshop.model.BasketItem;
-import se.tronhage.webshop.Services.ShoppingBasketManager;
+import se.tronhage.webshop.services.ShoppingBasketManager;
 
 @Controller
 public class ShoppingBasketController {

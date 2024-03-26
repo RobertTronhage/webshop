@@ -1,9 +1,9 @@
-package se.tronhage.webshop.Entity;
+package se.tronhage.webshop.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import se.tronhage.webshop.Enums.Role;
+import se.tronhage.webshop.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;

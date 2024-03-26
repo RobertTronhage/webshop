@@ -1,12 +1,12 @@
-package se.tronhage.webshop.Services;
+package se.tronhage.webshop.services;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.tronhage.webshop.Entity.User;
-import se.tronhage.webshop.Enums.Role;
-import se.tronhage.webshop.Repository.UserRepo;
+import se.tronhage.webshop.entity.User;
+import se.tronhage.webshop.enums.Role;
+import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.exceptions.UserAlreadyExistsException;
 import se.tronhage.webshop.exceptions.UserNotFoundException;
 
