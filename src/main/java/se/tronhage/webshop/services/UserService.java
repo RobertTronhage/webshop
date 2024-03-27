@@ -20,7 +20,7 @@ public class UserService {
 
     public User registerNewUser(String username, String name, String email, String password, String adress) {
         if(userRepo.existsByUsername(username)) {
-            throw new UserAlreadyExistsException("Användarnamnet är redan taget.");
+            throw new UserAlreadyExistsException("Username already in use.");
         }
         User newUser = new User();
         newUser.setUsername(username);
@@ -33,22 +33,20 @@ public class UserService {
         return userRepo.save(newUser);
     }
 
-
     public User updateUserDetails(Long userId, String email, String newPassword) {
         User user = userRepo.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("Användaren hittades inte."));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         user.setEmail(email);
         return userRepo.save(user);
     }
 
     public boolean authUser(String username, String password){
-        Optional <User> user = userRepo.findByUsername(username);
+        Optional<User> user = userRepo.findByUsername(username);
 
-        if (user.isPresent()){
+        if (user.isPresent()) {
             String dbPw = user.get().getPassword();
-
             return password.equals(dbPw);
-        }else {
+        } else {
             return false;
         }
     }
