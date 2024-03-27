@@ -29,11 +29,26 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @NotBlank(message = "adress is required")
+    private String adress;
+
+    @NotBlank(message = "Name is required")
+    private String name;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Orders> orders = new ArrayList<>();
 
 
     public User() {}
+
+    public User(String username, String email, String password, Role role, String adress, String name) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.adress = adress;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -41,6 +56,22 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {

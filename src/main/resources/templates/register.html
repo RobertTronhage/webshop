@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" href="css/registerstyle.css">
+    <link rel="stylesheet" href="registerstyle.css">
 </head>
 
 <body>
@@ -20,12 +20,20 @@
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password" placeholder="Enter password" required><br/>
 
-        <label for="confirm-password">Confirm Password:</label><br>
-        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm password" required><br/>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" placeholder="name" required><br/>
+
+        <label for="adress">adress:</label><br>
+        <input type="text" id="adress" name="adress" placeholder="adress" required><br/>
+
+        <label for="email">email:</label><br>
+        <input type="email" id="email" name="email" placeholder="email" required><br/>
 
         <br><button type="submit">Register</button>
 
     </form>
+
+    <p>User got registered: <span th:text="${addUser}"></span> </p>
 </div>
 </body>
 </html>
