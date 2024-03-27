@@ -15,7 +15,7 @@ public class Orders {
     private Long id;
 
     private LocalDateTime orderDate;
-    private String status; // Exempel: "BEKRÄFTAD", "SKICKAD", "LEVERERAD"
+    private String status; // Exempel: "CONFIRMED", "SHIPPED", "DELIVERED"
     private int totalSum;
 
 
