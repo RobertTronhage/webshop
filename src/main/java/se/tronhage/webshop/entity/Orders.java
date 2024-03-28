@@ -123,4 +123,7 @@ public class Orders {
                 ", orderLines=" + orderLines +
                 '}';
     }
+
+    public void addOrderLine(OrderLine orderLine) {
+    }
 }

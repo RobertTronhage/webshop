@@ -8,6 +8,10 @@ import java.util.List;
 public class ShoppingBasket {
     private List<BasketItem> items = new ArrayList<>();
 
+    public List<BasketItem> getItems() {
+        return items;
+    }
+
     public void addItem(BasketItem newItem) {
         for (BasketItem item : items) {
             if (item.getProductId().equals(newItem.getProductId())) {
@@ -43,5 +47,9 @@ public class ShoppingBasket {
                 break;
             }
         }
+    }
+
+    public void clear() {
+        this.items.clear(); // Rensar listan med BasketItems
     }
 }
