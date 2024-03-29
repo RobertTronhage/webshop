@@ -16,12 +16,10 @@ public class ShoppingBasketManager {
     }
 
     public void addItem(BasketItem item) {
-        // Logik för att lägga till en artikel i shoppingBasket
         this.shoppingBasket.addItem(item);
     }
 
     public void removeItem(Long productId, int quantity) {
-        // Logik för att ta bort en artikel från shoppingBasket
         this.shoppingBasket.removeItem(productId, quantity);
     }
 

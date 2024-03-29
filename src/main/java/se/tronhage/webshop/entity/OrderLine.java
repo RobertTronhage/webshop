@@ -62,4 +62,5 @@ public class OrderLine {
     public void setProduct(Product product) {
         this.product = product;
     }
+
 }

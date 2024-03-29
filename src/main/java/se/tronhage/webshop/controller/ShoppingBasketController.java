@@ -2,8 +2,11 @@ package se.tronhage.webshop.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import se.tronhage.webshop.model.BasketItem;
 import se.tronhage.webshop.services.ShoppingBasketManager;
 
@@ -22,6 +25,17 @@ public class ShoppingBasketController {
         return "redirect:/basket";
     }
 
-    // Metoder för att ta bort artiklar, visa inköpskorgen, etc.
+    @PostMapping("/remove-from-basket")
+    public String removeItemFromBasket(@RequestParam("productId") Long productId,
+                                       @RequestParam("quantity") int quantity, HttpSession session) {
+        basketManager.removeItem(productId, quantity);
+        return "redirect:/basket";
+    }
+
+    @GetMapping("/basket")
+    public String showBasket(Model model, HttpSession session) {
+        model.addAttribute("basket", basketManager.getShoppingBasket());
+        return "basket"; // vy-fil som heter basket.html ?
+    }
 }
 
