@@ -3,6 +3,7 @@ package se.tronhage.webshop.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import se.tronhage.webshop.enums.Role;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class User {
     @NotBlank(message = "Password is required")
     private String password;
 
-    @NotBlank(message = "Role is required") // ? On Admin side
+    @NotNull(message = "Role is required") // ? On Admin side
     @Enumerated(EnumType.STRING)
     private Role role;
 

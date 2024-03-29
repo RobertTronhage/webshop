@@ -16,11 +16,12 @@ import java.util.Optional;
 @Controller
 public class LoginController {
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    UserRepo userRepo;
+    private final UserService userService;
+    private final UserRepo userRepo;
+    public LoginController(UserService userService, UserRepo userRepo) {
+        this.userService = userService;
+        this.userRepo = userRepo;
+    }
 
     @GetMapping("/login")
     public String displayLoginForm() {
@@ -28,31 +29,11 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(Model m,
-                        @RequestParam String username,
-                        @RequestParam String password
-    ) {
-        boolean auth = userService.authUser(username, password);
-
-        if (auth) {
-            Optional<User> userOptional = userRepo.findByUsername(username);
-            if (userOptional.isPresent()) {
-
-                User user = userOptional.get();
-
-                if (user.getRole() == Role.admin) {
-                    return "redirect:/admin.html";
-                } else {
-                    return "products";
-                }
-            } else {
-                m.addAttribute("error", "user not found");
-                return "login";
-            }
-        } else {
-            m.addAttribute("error", "invalid username or password");
-            return "login";
-        }
-
+    public String login(Model model, @RequestParam String username, @RequestParam String password) {
+        return userService.authenticateAndRedirect(username, password)
+                .orElseGet(() -> {
+                    model.addAttribute("error", "Invalid username or password");
+                    return "login";
+                });
     }
 }

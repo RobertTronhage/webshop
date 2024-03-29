@@ -1,23 +1,26 @@
 package se.tronhage.webshop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.tronhage.webshop.entity.User;
+import se.tronhage.webshop.exceptions.UserAlreadyExistsException;
 import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.services.UserService;
 
 @Controller
 public class RegisterController {
 
-    @Autowired
-    UserRepo userRepo;
+    private final UserRepo userRepo;
+    private final UserService userService;
 
-    @Autowired
-    UserService userService;
+    public RegisterController(UserRepo userRepo, UserService userService) {
+        this.userRepo = userRepo;
+        this.userService = userService;
+    }
 
     @GetMapping("/register")
     public String showRegisterUserForm(Model m){
@@ -26,15 +29,23 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUserForm(Model m,
+    public String registerUserForm(Model m, RedirectAttributes redirectAttributes,
                                    @RequestParam String name,
                                    @RequestParam String email,
                                    @RequestParam String password,
                                    @RequestParam String adress,
-                                   @RequestParam String username
-    ){
-        String addUser = String.valueOf(userService.registerNewUser(username,name,email,password,adress));
-        m.addAttribute("addUser",addUser);
-        return "register";
+                                   @RequestParam String username) {
+        try {
+            userService.registerNewUser(username, name, email, password, adress);
+            redirectAttributes.addFlashAttribute("registrationSuccess", "User successfully registered.");
+            return "redirect:/login";
+        } catch (UserAlreadyExistsException e) {
+            m.addAttribute("customer", new User());
+            m.addAttribute("errorMessage", "Username already in use.");
+        } catch (Exception e) {
+            m.addAttribute("customer", new User()); // Återställer användarobjektet
+            m.addAttribute("errorMessage", "Error during registering.");
+        }
+        return "register"; // Stanna på registreringssidan med felmeddelande
     }
 }

@@ -7,6 +7,7 @@ import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.exceptions.UserAlreadyExistsException;
 import se.tronhage.webshop.exceptions.UserNotFoundException;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,6 @@ public class UserService {
 
     public boolean authUser(String username, String password){
         Optional<User> user = userRepo.findByUsername(username);
-
         if (user.isPresent()) {
             String dbPw = user.get().getPassword();
             return password.equals(dbPw);
@@ -50,6 +50,19 @@ public class UserService {
             return false;
         }
     }
+    public Optional<String> authenticateAndRedirect(String username, String password) {
+        Optional<User> user = userRepo.findByUsername(username);
+        if (user.isPresent() && authUser(username, password)) {
+            // antag att authUser-metoden autentiserar användaren som tidigare
+            User authenticatedUser = user.get();
+            if (Objects.requireNonNull(authenticatedUser.getRole()) == Role.admin) {
+                return Optional.of("redirect:/admin.html");
+            }
+            return Optional.of("redirect:/products");
+        }
+        return Optional.empty();
+    }
+
 
 
 }
