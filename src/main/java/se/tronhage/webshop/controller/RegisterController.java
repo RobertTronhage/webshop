@@ -37,6 +37,7 @@ public class RegisterController {
                                    @RequestParam String username) {
         try {
             userService.registerNewUser(username, name, email, password, adress);
+            // Om användaren registreras korrekt, skicka användaren till inloggningssidan
             redirectAttributes.addFlashAttribute("registrationSuccess", "User successfully registered.");
             return "redirect:/login";
         } catch (UserAlreadyExistsException e) {
