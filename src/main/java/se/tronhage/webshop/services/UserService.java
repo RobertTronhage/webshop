@@ -19,15 +19,16 @@ public class UserService {
         this.userRepo = userRepo;
     }
 
-    public User registerNewUser(String username, String name, String email, String password, String adress) {
+    public User registerNewUser(String firstName, String lastName, String email, String address, String username, String password) {
         if(userRepo.existsByUsername(username)) {
             throw new UserAlreadyExistsException("Username already in use.");
         }
         User newUser = new User();
-        newUser.setUsername(username);
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
         newUser.setEmail(email);
-        newUser.setAdress(adress);
-        newUser.setName(name);
+        newUser.setAddress(address);
+        newUser.setUsername(username);
         newUser.setPassword(password);
         newUser.setRole(Role.user);
         //newUser.setShoppingBasket(new ShoppingBasket()); // ny tom varukorg för användaren
@@ -62,7 +63,4 @@ public class UserService {
         }
         return Optional.empty();
     }
-
-
-
 }

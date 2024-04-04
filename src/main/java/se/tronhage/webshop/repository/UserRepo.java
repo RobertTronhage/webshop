@@ -7,9 +7,7 @@ import se.tronhage.webshop.entity.User;
 import java.util.Optional;
 
 @Repository
-public interface UserRepo extends JpaRepository<User,Long> {
-
+public interface UserRepo extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
-
     Optional<User> findByUsername(String username);
 }

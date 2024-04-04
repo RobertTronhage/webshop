@@ -30,13 +30,14 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String registerUserForm(Model m, RedirectAttributes redirectAttributes,
-                                   @RequestParam String name,
+                                   @RequestParam String firstName,
+                                   @RequestParam String lastName,
                                    @RequestParam String email,
-                                   @RequestParam String password,
-                                   @RequestParam String adress,
-                                   @RequestParam String username) {
+                                   @RequestParam String address,
+                                   @RequestParam String username,
+                                   @RequestParam String password) {
         try {
-            userService.registerNewUser(username, name, email, password, adress);
+            userService.registerNewUser(firstName, lastName, email, address, username, password);
             // Om användaren registreras korrekt, skicka användaren till inloggningssidan
             redirectAttributes.addFlashAttribute("registrationSuccess", "User successfully registered.");
             return "redirect:/login";
