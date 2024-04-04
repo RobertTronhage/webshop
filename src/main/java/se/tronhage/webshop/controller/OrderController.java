@@ -15,27 +15,23 @@ import java.util.List;
 @Controller
 public class OrderController {
 
-    @Autowired
-    OrderRepo ordersRepo;
+    private final OrderRepo ordersRepo;
+    private final OrderService orderService;
 
     @Autowired
-    OrderService orderService;
+    public OrderController(OrderRepo ordersRepo, OrderService orderService) {
+        this.ordersRepo = ordersRepo;
+        this.orderService = orderService;
+    }
 
 
     @GetMapping("/orders")
     public String listOrders(@RequestParam(name = "type", required = false, defaultValue = "all") String type, Model m) {
-        List<Order> orders;
-        switch (type) {
-            case "active":
-                orders = orderService.findAllConfirmedOrders();
-                break;
-            case "shipped":
-                orders = orderService.findAllShippedOrders();
-                break;
-            case "all":
-            default:
-                orders = ordersRepo.findAll();
-        }
+        List<Order> orders = switch (type) {
+            case "active" -> orderService.findAllConfirmedOrders();
+            case "shipped" -> orderService.findAllShippedOrders();
+            default -> ordersRepo.findAll();
+        };
         m.addAttribute("orders", orders);
         return "orders";
     }
@@ -69,3 +65,4 @@ public class OrderController {
 //    }
 
 }
+

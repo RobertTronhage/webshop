@@ -17,10 +17,15 @@ import java.util.List;
 @Controller
 public class UserController {
     //CRUD för användare
+
+    private final UserService userService;
+    private final UserRepo userRepo;
+
     @Autowired
-    UserService userService;
-    @Autowired
-    UserRepo userRepo;
+    public UserController(UserService userService, UserRepo userRepo) {
+        this.userService = userService;
+        this.userRepo = userRepo;
+    }
 
     @GetMapping("/users")
     public String listUsers(@RequestParam(name = "type", required = false, defaultValue = "all") String type, Model m) {
@@ -30,11 +35,9 @@ public class UserController {
             case "admin" -> {
                 users = userService.findAllAdmins();
             }
-
             case "shipped" -> {
                 users = userService.findallRegularUsers();
             }
-
             case "all" -> users = userRepo.findAll();
         }
         m.addAttribute("users", users);
