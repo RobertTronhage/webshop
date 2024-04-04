@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Orders</title>
+    <link rel="stylesheet" href="/css/productsstyle.css">
+</head>
+
+<body>
+<a href="/admin">Admin page</a>
+<h1>Products: </h1>
+
+<form method="post" action="/orders">
+    <button type="submit" name="filterType" value="all">All Orders</button>
+    <button type="submit" name="filterType" value="active">Active Orders</button>
+    <button type="submit" name="filterType" value="shipped">Shipped Orders</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>Order date</th>
+        <th>Total sum</th>
+        <th>Orderd by user</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.orderDate}"></td>
+        <td th:text="${order.totalSum}"></td>
+        <td th:text="${order.user.id}"></td>
+        <td th:text="${order.status} + ' '"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

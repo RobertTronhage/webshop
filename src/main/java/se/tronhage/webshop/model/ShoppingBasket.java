@@ -1,5 +1,7 @@
 package se.tronhage.webshop.model;
 
+import org.springframework.web.context.annotation.SessionScope;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

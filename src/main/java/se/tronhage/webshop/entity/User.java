@@ -42,12 +42,12 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Orders> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
 
     public User() {}
 
     public User(String firstName, String lastName, String address, String email, String username,
-                String password, Role role, List<Orders> orders) {
+                String password, Role role, List<Order> orders) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -117,11 +117,11 @@ public class User {
         this.role = role;
     }
 
-    public List<Orders> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Orders> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 

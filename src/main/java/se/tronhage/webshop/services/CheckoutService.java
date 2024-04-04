@@ -2,12 +2,13 @@ package se.tronhage.webshop.services;
 
 import org.springframework.stereotype.Service;
 import se.tronhage.webshop.entity.OrderLine;
-import se.tronhage.webshop.entity.Orders;
+import se.tronhage.webshop.entity.Order;
 import se.tronhage.webshop.entity.Product;
 import se.tronhage.webshop.entity.User;
+import se.tronhage.webshop.enums.OrderStatus;
 import se.tronhage.webshop.model.BasketItem;
 import se.tronhage.webshop.model.ShoppingBasket;
-import se.tronhage.webshop.repository.OrdersRepo;
+import se.tronhage.webshop.repository.OrderRepo;
 import se.tronhage.webshop.repository.ProductRepo;
 
 import java.time.LocalDateTime;
@@ -15,19 +16,19 @@ import java.time.LocalDateTime;
 @Service
 public class CheckoutService {
 
-    private final OrdersRepo ordersRepo;
+    private final OrderRepo ordersRepo;
     private final ProductRepo productRepo;
 
-    public CheckoutService(OrdersRepo ordersRepo, ProductRepo productRepo) {
+    public CheckoutService(OrderRepo ordersRepo, ProductRepo productRepo) {
         this.ordersRepo = ordersRepo;
         this.productRepo = productRepo;
     }
 
-    public Orders completePurchase(ShoppingBasket basket, User user) {
-        Orders order = new Orders();
+    public Order completePurchase(ShoppingBasket basket, User user) {
+        Order order = new Order();
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
-        order.setStatus("CONFIRMED");
+        order.setStatus(OrderStatus.CONFIRMED);
 
         int totalSum = 0;
         for (BasketItem item : basket.getItems()) {

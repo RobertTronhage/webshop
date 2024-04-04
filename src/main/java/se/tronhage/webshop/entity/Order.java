@@ -1,6 +1,7 @@
 package se.tronhage.webshop.entity;
 
 import jakarta.persistence.*;
+import se.tronhage.webshop.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -9,13 +10,15 @@ import java.util.Set;
 
 @Entity
 @Table(name="orders")
-public class Orders {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @Column(name="order_date")
     private LocalDateTime orderDate;
-    private String status; // Exempel: "CONFIRMED", "SHIPPED", "DELIVERED"
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status; // Exempel: "CONFIRMED", "SHIPPED", "DELIVERED"
+    @Column(name="total_sum")
     private int totalSum;
 
 
@@ -27,9 +30,9 @@ public class Orders {
     private Set<OrderLine> orderLines = new HashSet<>();
 
 
-    public Orders() {}
+    public Order() {}
 
-    public Orders(LocalDateTime orderDate, String status, int totalSum, User user) {
+    public Order(LocalDateTime orderDate, OrderStatus status, int totalSum, User user) {
         this.orderDate = orderDate;
         this.status = status;
         this.totalSum = totalSum;
@@ -52,11 +55,11 @@ public class Orders {
         this.orderDate = orderDate;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -89,7 +92,7 @@ public class Orders {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Orders orders = (Orders) o;
+        Order orders = (Order) o;
 
         if (totalSum != orders.totalSum) return false;
         if (!Objects.equals(id, orders.id)) return false;

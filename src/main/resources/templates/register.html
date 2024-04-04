@@ -36,6 +36,8 @@
     </form>
 
     <p th:if="${registrationSuccess}" th:text="${registrationSuccess}"></p>
+    <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
 
     <div class="register-link">
         <p>Already registered? <a href="/login">Login here</a>.</p>

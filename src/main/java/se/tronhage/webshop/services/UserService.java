@@ -53,6 +53,7 @@ public class UserService {
     }
     public Optional<String> authenticateAndRedirect(String username, String password) {
         Optional<User> user = userRepo.findByUsername(username);
+
         if (user.isPresent() && authUser(username, password)) {
             // antag att authUser-metoden autentiserar användaren som tidigare
             User authenticatedUser = user.get();

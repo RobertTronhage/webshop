@@ -29,7 +29,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUserForm(Model m, RedirectAttributes redirectAttributes,
+    public String registerUserForm(Model m,
                                    @RequestParam String firstName,
                                    @RequestParam String lastName,
                                    @RequestParam String email,
@@ -39,15 +39,17 @@ public class RegisterController {
         try {
             userService.registerNewUser(firstName, lastName, email, address, username, password);
             // Om användaren registreras korrekt, skicka användaren till inloggningssidan
-            redirectAttributes.addFlashAttribute("registrationSuccess", "User successfully registered.");
-            return "redirect:/login";
+            m.addAttribute("registrationSuccess", true);
+
         } catch (UserAlreadyExistsException e) {
             m.addAttribute("customer", new User());
             m.addAttribute("errorMessage", "Username already in use.");
+            return "register";
         } catch (Exception e) {
             m.addAttribute("customer", new User()); // Återställer användarobjektet
             m.addAttribute("errorMessage", "Error during registering.");
+            return "register";
         }
-        return "register"; // Stanna på registreringssidan med felmeddelande
+        return "redirect:/login";
     }
 }
