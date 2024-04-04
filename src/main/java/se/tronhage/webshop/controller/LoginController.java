@@ -37,4 +37,9 @@ public class LoginController {
                     return "login";
                 });
     }
+
+    @PostMapping("/logout")
+    public String logout() {
+        return "login";
+    }
 }
