@@ -17,7 +17,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String displayAdminForm(Model m) {
+    public String displayAdminForm() {
         return "admin";
     }
 }

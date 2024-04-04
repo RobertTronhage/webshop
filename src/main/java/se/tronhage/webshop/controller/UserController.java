@@ -35,7 +35,7 @@ public class UserController {
             case "admin" -> {
                 users = userService.findAllAdmins();
             }
-            case "shipped" -> {
+            case "user" -> {
                 users = userService.findallRegularUsers();
             }
             case "all" -> users = userRepo.findAll();

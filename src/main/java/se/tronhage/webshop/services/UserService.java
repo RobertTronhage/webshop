@@ -77,7 +77,7 @@ public class UserService {
             // antag att authUser-metoden autentiserar användaren som tidigare
             User authenticatedUser = user.get();
             if (Objects.requireNonNull(authenticatedUser.getRole()) == Role.admin) {
-                return Optional.of("redirect:/admin.html");
+                return Optional.of("redirect:/admin");
             }
             return Optional.of("redirect:/products");
         }
