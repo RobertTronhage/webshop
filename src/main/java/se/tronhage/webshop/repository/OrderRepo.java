@@ -7,7 +7,5 @@ import se.tronhage.webshop.enums.OrderStatus;
 import java.util.List;
 
 public interface OrderRepo extends JpaRepository<Order, Long>{
-
     List<Order> findByStatus(OrderStatus status);
-
 }

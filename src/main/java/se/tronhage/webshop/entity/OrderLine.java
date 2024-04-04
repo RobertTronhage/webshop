@@ -51,8 +51,8 @@ public class OrderLine {
         return orders;
     }
 
-    public void setOrders(Order orders) {
-        this.orders = orders;
+    public void setOrders(Order order) {
+        this.orders = order;
     }
 
     public Product getProduct() {

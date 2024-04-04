@@ -21,7 +21,6 @@ public class Order {
     @Column(name="total_sum")
     private int totalSum;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
