@@ -1,12 +1,15 @@
 package se.tronhage.webshop.services;
 
 import org.springframework.stereotype.Service;
+import se.tronhage.webshop.entity.Order;
 import se.tronhage.webshop.entity.User;
+import se.tronhage.webshop.enums.OrderStatus;
 import se.tronhage.webshop.enums.Role;
 import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.exceptions.UserAlreadyExistsException;
 import se.tronhage.webshop.exceptions.UserNotFoundException;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -35,11 +38,27 @@ public class UserService {
         return userRepo.save(newUser);
     }
 
-    public User updateUserDetails(Long userId, String email, String newPassword) {
-        User user = userRepo.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-        user.setEmail(email);
-        return userRepo.save(user);
+    public void updateUser(User updatedUser) {
+        // Retrieve the user from the database based on the provided ID
+        Optional<User> optionalUser = userRepo.findById(updatedUser.getId());
+
+        if (optionalUser.isPresent()) {
+            User existingUser = optionalUser.get();
+
+            // Update the user details with the values from the updatedUser object
+            existingUser.setFirstName(updatedUser.getFirstName());
+            existingUser.setLastName(updatedUser.getLastName());
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setAddress(updatedUser.getAddress());
+            existingUser.setUsername(updatedUser.getUsername());
+            existingUser.setPassword(updatedUser.getPassword());
+
+            // Save the updated user back to the database
+            userRepo.save(existingUser);
+        } else {
+            // Handle the case where the user with the provided ID does not exist
+            throw new UserNotFoundException("User not found with ID: " + updatedUser.getId());
+        }
     }
 
     public boolean authUser(String username, String password){
@@ -63,5 +82,13 @@ public class UserService {
             return Optional.of("redirect:/products");
         }
         return Optional.empty();
+    }
+
+    public List<User> findallRegularUsers(){
+        return userRepo.findByRole(Role.user);
+    }
+
+    public List<User> findAllAdmins(){
+        return userRepo.findByRole(Role.admin);
     }
 }
