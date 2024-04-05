@@ -28,6 +28,7 @@ public class UserService {
         if(userRepo.existsByUsername(username)) {
             throw new UserAlreadyExistsException("Username already in use.");
         }
+
         User newUser = new User();
         newUser.setFirstName(firstName);
         newUser.setLastName(lastName);

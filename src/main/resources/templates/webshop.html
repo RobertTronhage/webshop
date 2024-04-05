@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All products</title>
+    <link rel="stylesheet" href="/css/productsstyle.css">
+</head>
+
+<body>
+
+<h1>Our Products:</h1>
+
+<!--sökfunktion(kategori-sök)fritext-sök, varukorg, orderhistorik-->
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.description}"></td>
+        <td th:text="${product.price} + ' kr'"></td>
+
+    </tr>
+    </tbody>
+</table>
+
+<!-- Logout Button - Behöver placeras bättre!-->
+<div class="logout-button">
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+</body>
+</html>
