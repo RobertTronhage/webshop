@@ -13,6 +13,7 @@ import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.services.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -52,9 +53,18 @@ public class UserController {
     }
 
     @GetMapping("/editUser")
-    public String editUser(Model m) {
-        m.addAttribute("user", new User());
-        return "editUser";
+    public String editUser(@RequestParam("userId") Long userId, Model model) {
+
+        Optional<User> optionalUser = userRepo.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            model.addAttribute("user", user);
+            return "editUser";
+        } else {
+
+            return "errorPage"; // Exempel på felvy
+        }
     }
 
     @PostMapping("/editUser")
