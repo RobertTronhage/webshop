@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @Controller
 public class UserController {
-    //CRUD för användare
 
     private final UserService userService;
     private final UserRepo userRepo;
@@ -72,7 +71,7 @@ public class UserController {
         try {
             userService.updateUser(user);
             m.addAttribute("registrationSuccess","User updated successfully");
-        }catch(Exception e){
+        } catch(Exception e){
             m.addAttribute("errorMessage","Error updating user.");
         }
         return "editUser";

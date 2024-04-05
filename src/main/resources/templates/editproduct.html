@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <a href="/admin">Admin page</a>
@@ -11,12 +10,16 @@
 
 <div class="container">
     <h1>Edit User</h1>
+
     <form th:action="@{/editproduct}" th:object="${product}" method="post">
         <input type="hidden" th:field="*{id}" /> <!-- Include hidden input for user ID -->
+
         <label for="name">Name:</label>
         <input type="text" id="name" th:field="*{name}" th:value="${product.name}" required><br/>
+
         <label for="description">Description:</label>
         <input type="text" id="description" th:field="*{description}" th:value="${product.description}" required><br/>
+
         <label for="price">Price:</label>
         <input type="text" id="price" th:field="*{price}" th:value="${product.price}" required><br/>
 

@@ -17,21 +17,27 @@ import java.util.Optional;
 @Controller
 public class ProductController {
 
-    @Autowired
-    ProductRepo productRepo;
-    @Autowired
-    ProductService productService;
+    private final ProductRepo productRepo;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepo productRepo) {
+    public ProductController(ProductRepo productRepo, ProductService productService) {
         this.productRepo = productRepo;
+        this.productService = productService;
     }
 
     @GetMapping("/products")
     public String listProducts(Model m){
         List<Product>products = productRepo.findAll();
-        m.addAttribute("products",products);
+        m.addAttribute("products", products);
         return "products";
+    }
+
+    @GetMapping("/products")
+    public String userProducts(Model m){
+        List<Product>products = productRepo.findAll();
+        m.addAttribute("products", products);
+        return "webshop";
     }
 
     @GetMapping("/editproduct")

@@ -36,7 +36,7 @@
         <td th:text="${user.address}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.username}"></td>
-        <td th:text="${user.Role}"></td>
+        <td th:text="${user.role}"></td>
         <td>
         <form method="get" action="/editUser">
             <input type="hidden" name="userId" th:value="${user.id}" /> <!-- Hidden input to pass user ID -->

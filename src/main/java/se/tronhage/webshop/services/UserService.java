@@ -2,6 +2,7 @@ package se.tronhage.webshop.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.tronhage.webshop.entity.Order;
 import se.tronhage.webshop.entity.User;
 import se.tronhage.webshop.enums.OrderStatus;
@@ -17,9 +18,9 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
     UserRepo userRepo;
 
+    @Autowired
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
@@ -41,6 +42,7 @@ public class UserService {
         return userRepo.save(newUser);
     }
 
+    @Transactional
     public void updateUser(User updatedUser) {
         // Retrieve the user from the database based on the provided ID
         Optional<User> optionalUser = userRepo.findById(updatedUser.getId());

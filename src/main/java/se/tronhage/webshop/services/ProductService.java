@@ -3,9 +3,7 @@ package se.tronhage.webshop.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.tronhage.webshop.entity.Product;
-import se.tronhage.webshop.entity.User;
 import se.tronhage.webshop.exceptions.ProductNotFoundException;
-import se.tronhage.webshop.exceptions.UserNotFoundException;
 import se.tronhage.webshop.repository.ProductRepo;
 
 import java.util.Optional;
