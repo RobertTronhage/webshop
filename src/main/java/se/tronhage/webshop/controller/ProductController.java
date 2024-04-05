@@ -33,13 +33,6 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/products")
-    public String userProducts(Model m){
-        List<Product>products = productRepo.findAll();
-        m.addAttribute("products", products);
-        return "webshop";
-    }
-
     @GetMapping("/editproduct")
     public String editProduct(@RequestParam("productid") Long productid, Model model){
         Optional<Product> productOptional = productRepo.findById(productid);

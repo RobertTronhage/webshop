@@ -43,7 +43,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(User updatedUser) {
+    public void updateUser(User updatedUser, String newPassword) {
         // Retrieve the user from the database based on the provided ID
         Optional<User> optionalUser = userRepo.findById(updatedUser.getId());
 
@@ -56,8 +56,11 @@ public class UserService {
             existingUser.setEmail(updatedUser.getEmail());
             existingUser.setAddress(updatedUser.getAddress());
             existingUser.setUsername(updatedUser.getUsername());
-            existingUser.setPassword(updatedUser.getPassword());
 
+            // Uppdatera endast lösenordet om ett nytt har angetts
+            if (newPassword != null && !newPassword.trim().isEmpty()) {
+                existingUser.setPassword(newPassword);
+            }
             // Save the updated user back to the database
             userRepo.save(existingUser);
         } else {

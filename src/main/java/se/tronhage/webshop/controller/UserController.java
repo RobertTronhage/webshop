@@ -67,9 +67,10 @@ public class UserController {
     }
 
     @PostMapping("/editUser")
-    public String editUser(@ModelAttribute("user") User user, Model m) {
+    public String editUser(@ModelAttribute("user") User user,
+                           @RequestParam(required = false) String password, Model m) {
         try {
-            userService.updateUser(user);
+            userService.updateUser(user, password);
             m.addAttribute("registrationSuccess","User updated successfully");
         } catch(Exception e){
             m.addAttribute("errorMessage","Error updating user.");
