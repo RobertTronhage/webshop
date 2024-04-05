@@ -1,5 +1,6 @@
 package se.tronhage.webshop.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.tronhage.webshop.entity.Order;
 import se.tronhage.webshop.entity.User;
@@ -16,7 +17,8 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private final UserRepo userRepo;
+    @Autowired
+    UserRepo userRepo;
 
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -33,7 +35,7 @@ public class UserService {
         newUser.setAddress(address);
         newUser.setUsername(username);
         newUser.setPassword(password);
-        newUser.setRole(Role.user);
+        newUser.setRole(Role.USER);
         //newUser.setShoppingBasket(new ShoppingBasket()); // ny tom varukorg för användaren
         return userRepo.save(newUser);
     }
@@ -76,7 +78,7 @@ public class UserService {
         if (user.isPresent() && authUser(username, password)) {
             // antag att authUser-metoden autentiserar användaren som tidigare
             User authenticatedUser = user.get();
-            if (Objects.requireNonNull(authenticatedUser.getRole()) == Role.admin) {
+            if (Objects.requireNonNull(authenticatedUser.getRole()) == Role.ADMIN) {
                 return Optional.of("redirect:/admin");
             }
             return Optional.of("redirect:/products");
@@ -85,10 +87,10 @@ public class UserService {
     }
 
     public List<User> findallRegularUsers(){
-        return userRepo.findByRole(Role.user);
+        return userRepo.findByRole(Role.USER);
     }
 
     public List<User> findAllAdmins(){
-        return userRepo.findByRole(Role.admin);
+        return userRepo.findByRole(Role.ADMIN);
     }
 }
