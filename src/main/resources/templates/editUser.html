@@ -13,7 +13,7 @@
     <form th:action="@{/editUser}" th:object="${user}" method="post">
         <input type="hidden" th:field="*{id}" /> <!-- Include hidden input for user ID -->
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" th:field="*{firstName}"  required><br/>
+        <input type="text" id="firstName" th:field="*{firstName}" th:value="${user.firstName}" required><br/>
         <label for="lastName">Last Name:</label>
         <input type="text" id="lastName" th:field="*{lastName}" th:value="${user.lastName}" required><br/>
         <label for="email">Email:</label>
