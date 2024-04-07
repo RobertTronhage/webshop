@@ -1,6 +1,5 @@
 package se.tronhage.webshop.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.tronhage.webshop.entity.User;
@@ -18,7 +17,6 @@ public class UserService {
 
     private final UserRepo userRepo;
 
-    @Autowired
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
@@ -63,6 +61,7 @@ public class UserService {
         userFromDb.setEmail(userUpdates.getEmail());
         userFromDb.setAddress(userUpdates.getAddress());
         userFromDb.setUsername(userUpdates.getUsername());
+        userFromDb.setRole(userUpdates.getRole());
 
         // Uppdatera endast lösenordet om ett nytt har angetts
         if (newPassword != null && !newPassword.trim().isEmpty()) {
@@ -90,7 +89,7 @@ public class UserService {
             if (Objects.requireNonNull(authenticatedUser.getRole()) == Role.ADMIN) {
                 return Optional.of("redirect:/admin");
             }
-            return Optional.of("redirect:/products");
+            return Optional.of("redirect:/webshop");
         }
         return Optional.empty();
     }

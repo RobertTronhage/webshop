@@ -53,7 +53,6 @@ public class UserController {
 
     @GetMapping("/editUser")
     public String editUser(@RequestParam("userId") Long userId, Model model) {
-
         Optional<User> optionalUser = userRepo.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -61,8 +60,7 @@ public class UserController {
             model.addAttribute("user", user);
             return "editUser";
         } else {
-
-            return "errorPage"; // Exempel på felvy
+            return "errorPage"; // Exempel på felvy, skapa?
         }
     }
 
