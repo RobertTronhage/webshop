@@ -27,10 +27,17 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public String listProducts(Model m){
-        List<Product>products = productRepo.findAll();
+    public String listProducts(Model m) {
+        List<Product> products = productRepo.findAll();
         m.addAttribute("products", products);
         return "products";
+    }
+
+    @GetMapping("/webshop")
+    public String allProducts(Model m) {
+        List<Product> products = productRepo.findAll();
+        m.addAttribute("products", products);
+        return "webshop";
     }
 
     @GetMapping("/editproduct")

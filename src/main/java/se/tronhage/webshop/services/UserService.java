@@ -80,16 +80,11 @@ public class UserService {
             return false;
         }
     }
-    public Optional<String> authenticateAndRedirect(String username, String password) {
+    public Optional<Role> authenticate(String username, String password) {
         Optional<User> user = userRepo.findByUsername(username);
 
         if (user.isPresent() && authUser(username, password)) {
-            // antag att authUser-metoden autentiserar användaren som tidigare
-            User authenticatedUser = user.get();
-            if (Objects.requireNonNull(authenticatedUser.getRole()) == Role.ADMIN) {
-                return Optional.of("redirect:/admin");
-            }
-            return Optional.of("redirect:/webshop");
+            return Optional.of(user.get().getRole());
         }
         return Optional.empty();
     }

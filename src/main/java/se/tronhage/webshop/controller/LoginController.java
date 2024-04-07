@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.tronhage.webshop.entity.User;
 import se.tronhage.webshop.enums.Role;
 import se.tronhage.webshop.repository.UserRepo;
@@ -30,12 +31,20 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(Model model, @RequestParam String username, @RequestParam String password) {
-        return userService.authenticateAndRedirect(username, password)
-                .orElseGet(() -> {
-                    model.addAttribute("error", "Invalid username or password");
-                    return "login";
-                });
+    public String login(@RequestParam String username, @RequestParam String password,
+                        RedirectAttributes redirectAttributes) {
+        Optional<Role> role = userService.authenticate(username, password);
+
+        if (role.isPresent()) {
+            if (role.get() == Role.ADMIN) {
+                return "redirect:/admin";
+            }
+            return "redirect:/webshop";
+        } else {
+            redirectAttributes.addFlashAttribute("loginError",
+                    "Invalid username or password");
+            return "redirect:/login";
+        }
     }
 
     @PostMapping("/logout")
