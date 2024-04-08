@@ -54,6 +54,7 @@ public class UserController {
     public String editUser(@RequestParam("userId") Long userId, Model m) {
         Optional<User> optionalUser = userService.findById(userId);
         if (optionalUser.isPresent()) {
+
             m.addAttribute("user", optionalUser.get());
             return "edituser";
         } else {
@@ -63,7 +64,7 @@ public class UserController {
 
     @PostMapping("/edituser")
     public String updateUser(@ModelAttribute User updatedUser, Model m) {
-        System.out.println(updatedUser.getId());
+        System.out.println(updatedUser.getId()); // HÄR ÄR USER ID NULL
         try {
             userService.updateUser(updatedUser);
             m.addAttribute("registrationSuccess", true);
