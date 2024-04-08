@@ -11,7 +11,7 @@
     <h1>Edit User</h1>
 
     <form th:action="@{/edituser}" method="post" th:object="${user}">
-        <input type="hidden" id="id" name="id" th:value="${user.id}" /> <!-- Include hidden input for user ID -->
+        <input type="hidden" id="id" name="id" th:value="${user.id}"/> <!-- Include hidden input for user ID -->
 
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" name="firstName" th:value="${user.firstName}" required><br/>

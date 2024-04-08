@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.tronhage.webshop.entity.Order;
 import se.tronhage.webshop.entity.User;
+import se.tronhage.webshop.exceptions.UserAlreadyExistsException;
 import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.services.UserService;
 
@@ -46,15 +47,14 @@ public class UserController {
 
     @PostMapping("/users")
     public String listUsersPost(@RequestParam(name = "type", required = false, defaultValue = "all") String type) {
-
         return "redirect:/users?type=" + type;
     }
 
     @GetMapping("/edituser")
-    public String editUser(@RequestParam("userId") Long userId, Model model) {
+    public String editUser(@RequestParam("userId") Long userId, Model m) {
         Optional<User> optionalUser = userService.findById(userId);
         if (optionalUser.isPresent()) {
-            model.addAttribute("user", optionalUser.get());
+            m.addAttribute("user", optionalUser.get());
             return "edituser";
         } else {
             return "errorPage";
@@ -62,8 +62,19 @@ public class UserController {
     }
 
     @PostMapping("/edituser")
-    public String updateUser(@ModelAttribute User user) {
-        userService.updateUser(user);
+    public String updateUser(@ModelAttribute User updatedUser, Model m) {
+        System.out.println(updatedUser.getId());
+        try {
+            userService.updateUser(updatedUser);
+            m.addAttribute("registrationSuccess", true);
+
+        } catch (Exception e) {
+            m.addAttribute("user", new User());
+            m.addAttribute("errorMessage", "Error during update.");
+            return "errorPage";
+        }
         return "redirect:/users";
     }
 }
+
+

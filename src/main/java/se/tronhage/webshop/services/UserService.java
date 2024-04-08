@@ -38,37 +38,58 @@ public class UserService {
     }
 
     public Optional<User> findById(Long id) {
+        System.out.println("findbyid i service");
         return userRepo.findById(id);
     }
 
-    public void updateUser(User user) {
-        userRepo.save(user);
-    }
+    public void updateUser(User updatedUser) {
+        Long userId = updatedUser.getId();
+        System.out.println(updatedUser.toString());
+        if (userId != null) {
+            Optional<User> optionalUser = findById(userId);
+            System.out.println(userId);
+            if (optionalUser.isPresent()) {
+                User existingUser = optionalUser.get();
 
-    public boolean authUser(String username, String password) {
-        Optional<User> user = userRepo.findByUsername(username);
-        if (user.isPresent()) {
-            String dbPw = user.get().getPassword();
-            return password.equals(dbPw);
-        } else {
-            return false;
+                // Update the existing user's fields with the form data
+                existingUser.setFirstName(updatedUser.getFirstName());
+                existingUser.setLastName(updatedUser.getLastName());
+                existingUser.setEmail(updatedUser.getEmail());
+                existingUser.setAddress(updatedUser.getAddress());
+                existingUser.setUsername(updatedUser.getUsername());
+                existingUser.setPassword(updatedUser.getPassword());
+                existingUser.setRole(updatedUser.getRole());
+
+                System.out.println("NU SKA DEN JU SOPARAARSd");
+                userRepo.save(existingUser);
+            }
         }
     }
 
-    public Optional<Role> authenticate(String username, String password) {
-        Optional<User> user = userRepo.findByUsername(username);
-
-        if (user.isPresent() && authUser(username, password)) {
-            return Optional.of(user.get().getRole());
+        public boolean authUser (String username, String password){
+            Optional<User> user = userRepo.findByUsername(username);
+            if (user.isPresent()) {
+                String dbPw = user.get().getPassword();
+                return password.equals(dbPw);
+            } else {
+                return false;
+            }
         }
-        return Optional.empty();
-    }
 
-    public List<User> findallRegularUsers() {
-        return userRepo.findByRole(Role.USER);
-    }
+        public Optional<Role> authenticate (String username, String password){
+            Optional<User> user = userRepo.findByUsername(username);
 
-    public List<User> findAllAdmins() {
-        return userRepo.findByRole(Role.ADMIN);
+            if (user.isPresent() && authUser(username, password)) {
+                return Optional.of(user.get().getRole());
+            }
+            return Optional.empty();
+        }
+
+        public List<User> findallRegularUsers () {
+            return userRepo.findByRole(Role.USER);
+        }
+
+        public List<User> findAllAdmins () {
+            return userRepo.findByRole(Role.ADMIN);
+        }
     }
-}
