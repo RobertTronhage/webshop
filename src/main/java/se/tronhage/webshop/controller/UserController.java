@@ -52,30 +52,18 @@ public class UserController {
 
     @GetMapping("/edituser")
     public String editUser(@RequestParam("userId") Long userId, Model model) {
-        Optional<User> optionalUser = userRepo.findById(userId);
+        Optional<User> optionalUser = userService.findById(userId);
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-
-            model.addAttribute("user", user);
+            model.addAttribute("user", optionalUser.get());
             return "edituser";
         } else {
-            return "errorPage"; // Exempel på felvy, skapa?
+            return "errorPage";
         }
     }
 
     @PostMapping("/edituser")
-    public String editUser(@ModelAttribute("user") User user, Model m,
-                           @RequestParam("userId") Long userId) {
+    public String updateUser(@ModelAttribute User user) {
         userService.updateUser(user);
-//        try {
-
-//            m.addAttribute("registrationSuccess","User updated successfully");
-//            return "redirect:/users?type=all";
-//        } catch(Exception e){
-//            m.addAttribute("errorMessage","Error updating user.");
-//            System.out.println("FEL");
-        return "edituser";
-//        }
-
+        return "redirect:/users";
     }
 }

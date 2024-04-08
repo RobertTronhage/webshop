@@ -37,48 +37,13 @@ public class UserService {
         userRepo.save(newUser);
     }
 
-
-    public void updateUser(User user) {
-
-        Optional<User> optionalUser = userRepo.findById(user.getId());
-        User existingUser = new User();
-
-        if (optionalUser.isPresent()){
-            existingUser=optionalUser.get();
-        }else {
-            //ERROR
-        }
-
-        existingUser.setFirstName(user.getFirstName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setAddress(user.getAddress());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setRole(user.getRole());
-        existingUser.setUsername(user.getUsername());
-        existingUser.setPassword(user.getPassword());
-
-        userRepo.save(existingUser);
-
+    public Optional<User> findById(Long id) {
+        return userRepo.findById(id);
     }
 
-//    private static User getUser(User userUpdates, String newPassword, Optional<User> optionalUser) {
-//        User userFromDb = optionalUser.get();
-//
-//        // Update the user details with the values from the userUpdates object
-//        userFromDb.setFirstName(userUpdates.getFirstName());
-//        userFromDb.setLastName(userUpdates.getLastName());
-//        userFromDb.setEmail(userUpdates.getEmail());
-//        userFromDb.setAddress(userUpdates.getAddress());
-//        userFromDb.setUsername(userUpdates.getUsername());
-//        userFromDb.setRole(userUpdates.getRole());
-//
-//        // Uppdatera endast lösenordet om ett nytt har angetts
-//        if (newPassword != null && !newPassword.trim().isEmpty()) {
-//            userFromDb.setPassword(newPassword);
-//        }
-//        return userFromDb;
-//    }
-
+    public void updateUser(User user) {
+        userRepo.save(user);
+    }
 
     public boolean authUser(String username, String password) {
         Optional<User> user = userRepo.findByUsername(username);
