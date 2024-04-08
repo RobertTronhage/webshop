@@ -46,34 +46,36 @@ public class UserController {
 
     @PostMapping("/users")
     public String listUsersPost(@RequestParam(name = "type", required = false, defaultValue = "all") String type) {
-        // You can perform additional actions if needed
-        // For example, redirect to another page after processing the POST request
+
         return "redirect:/users?type=" + type;
     }
 
-    @GetMapping("/editUser")
+    @GetMapping("/edituser")
     public String editUser(@RequestParam("userId") Long userId, Model model) {
         Optional<User> optionalUser = userRepo.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
             model.addAttribute("user", user);
-            return "editUser";
+            return "edituser";
         } else {
             return "errorPage"; // Exempel på felvy, skapa?
         }
     }
 
-    @PostMapping("/editUser")
-    public String editUser(@ModelAttribute("user") User user,
-                           @RequestParam(required = false) String password, Model m) {
-        try {
-            userService.updateUser(user, password);
-            m.addAttribute("registrationSuccess","User updated successfully");
-        } catch(Exception e){
-            m.addAttribute("errorMessage","Error updating user.");
-        }
-        return "editUser";
-    }
+    @PostMapping("/edituser")
+    public String editUser(@ModelAttribute("user") User user, Model m,
+                           @RequestParam("userId") Long userId) {
+        userService.updateUser(user);
+//        try {
 
+//            m.addAttribute("registrationSuccess","User updated successfully");
+//            return "redirect:/users?type=all";
+//        } catch(Exception e){
+//            m.addAttribute("errorMessage","Error updating user.");
+//            System.out.println("FEL");
+        return "edituser";
+//        }
+
+    }
 }

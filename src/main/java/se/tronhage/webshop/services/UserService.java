@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public void registerNewUser(String firstName, String lastName, String email, String address, String username, String password) {
-        if(userRepo.existsByUsername(username)) {
+        if (userRepo.existsByUsername(username)) {
             throw new UserAlreadyExistsException("Username already in use.");
         }
         User newUser = new User();
@@ -37,41 +37,50 @@ public class UserService {
         userRepo.save(newUser);
     }
 
-    @Transactional
-    public void updateUser(User userUpdates, String newPassword) {
-        // Retrieve the user from the database based on the provided ID
-        Optional<User> optionalUser = userRepo.findById(userUpdates.getId());
 
-        if (optionalUser.isPresent()) {
-            User userFromDb = getUser(userUpdates, newPassword, optionalUser);
-            // Save the updated user back to the database
-            userRepo.save(userFromDb);
-        } else {
-            // Handle the case where the user with the provided ID does not exist
-            throw new UserNotFoundException("User not found with ID: " + userUpdates.getId());
+    public void updateUser(User user) {
+
+        Optional<User> optionalUser = userRepo.findById(user.getId());
+        User existingUser = new User();
+
+        if (optionalUser.isPresent()){
+            existingUser=optionalUser.get();
+        }else {
+            //ERROR
         }
+
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setRole(user.getRole());
+        existingUser.setUsername(user.getUsername());
+        existingUser.setPassword(user.getPassword());
+
+        userRepo.save(existingUser);
+
     }
 
-    private static User getUser(User userUpdates, String newPassword, Optional<User> optionalUser) {
-        User userFromDb = optionalUser.get();
+//    private static User getUser(User userUpdates, String newPassword, Optional<User> optionalUser) {
+//        User userFromDb = optionalUser.get();
+//
+//        // Update the user details with the values from the userUpdates object
+//        userFromDb.setFirstName(userUpdates.getFirstName());
+//        userFromDb.setLastName(userUpdates.getLastName());
+//        userFromDb.setEmail(userUpdates.getEmail());
+//        userFromDb.setAddress(userUpdates.getAddress());
+//        userFromDb.setUsername(userUpdates.getUsername());
+//        userFromDb.setRole(userUpdates.getRole());
+//
+//        // Uppdatera endast lösenordet om ett nytt har angetts
+//        if (newPassword != null && !newPassword.trim().isEmpty()) {
+//            userFromDb.setPassword(newPassword);
+//        }
+//        return userFromDb;
+//    }
 
-        // Update the user details with the values from the userUpdates object
-        userFromDb.setFirstName(userUpdates.getFirstName());
-        userFromDb.setLastName(userUpdates.getLastName());
-        userFromDb.setEmail(userUpdates.getEmail());
-        userFromDb.setAddress(userUpdates.getAddress());
-        userFromDb.setUsername(userUpdates.getUsername());
-        userFromDb.setRole(userUpdates.getRole());
 
-        // Uppdatera endast lösenordet om ett nytt har angetts
-        if (newPassword != null && !newPassword.trim().isEmpty()) {
-            userFromDb.setPassword(newPassword);
-        }
-        return userFromDb;
-    }
-
-
-    public boolean authUser(String username, String password){
+    public boolean authUser(String username, String password) {
         Optional<User> user = userRepo.findByUsername(username);
         if (user.isPresent()) {
             String dbPw = user.get().getPassword();
@@ -80,6 +89,7 @@ public class UserService {
             return false;
         }
     }
+
     public Optional<Role> authenticate(String username, String password) {
         Optional<User> user = userRepo.findByUsername(username);
 
@@ -89,11 +99,11 @@ public class UserService {
         return Optional.empty();
     }
 
-    public List<User> findallRegularUsers(){
+    public List<User> findallRegularUsers() {
         return userRepo.findByRole(Role.USER);
     }
 
-    public List<User> findAllAdmins(){
+    public List<User> findAllAdmins() {
         return userRepo.findByRole(Role.ADMIN);
     }
 }

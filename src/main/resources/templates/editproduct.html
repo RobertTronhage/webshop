@@ -4,12 +4,12 @@
     <a href="/admin">Admin page</a>
     <meta charset="UTF-8">
     <title>Edit Product</title>
-    <link rel="stylesheet" href="/css/registerstyle.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>Edit User</h1>
+    <h1>Edit Product</h1>
 
     <form th:action="@{/editproduct}" th:object="${product}" method="post">
         <input type="hidden" th:field="*{id}" /> <!-- Include hidden input for user ID -->
@@ -26,5 +26,7 @@
         <button type="submit">Update</button> <!-- Change button text to "Update" -->
     </form>
 </div>
+
+<a href="addnewproduct.html">Add New Product</a>
 </body>
 </html>
