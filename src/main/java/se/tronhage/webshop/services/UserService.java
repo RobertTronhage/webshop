@@ -78,7 +78,6 @@ public class UserService {
 
         public Optional<Role> authenticate (String username, String password){
             Optional<User> user = userRepo.findByUsername(username);
-
             if (user.isPresent() && authUser(username, password)) {
                 return Optional.of(user.get().getRole());
             }

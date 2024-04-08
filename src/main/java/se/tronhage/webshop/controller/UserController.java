@@ -68,7 +68,6 @@ public class UserController {
         try {
             userService.updateUser(updatedUser);
             m.addAttribute("registrationSuccess", true);
-
         } catch (Exception e) {
             m.addAttribute("user", new User());
             m.addAttribute("errorMessage", "Error during update.");
