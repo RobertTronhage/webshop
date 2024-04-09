@@ -1,8 +1,11 @@
 package se.tronhage.webshop.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -14,40 +17,37 @@ import se.tronhage.webshop.services.UserService;
 @Controller
 public class RegisterController {
 
-    private final UserRepo userRepo;
     private final UserService userService;
 
-    public RegisterController(UserRepo userRepo, UserService userService) {
-        this.userRepo = userRepo;
+    public RegisterController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/register")
     public String showRegisterUserForm(Model m){
-        m.addAttribute("customer",new User());
+        m.addAttribute("customer", new User());
         return "register";
     }
 
     @PostMapping("/register")
-    public String registerUserForm(Model m,
-                                   @RequestParam String firstName,
-                                   @RequestParam String lastName,
-                                   @RequestParam String email,
-                                   @RequestParam String address,
-                                   @RequestParam String username,
-                                   @RequestParam String password) {
+    public String registerUserForm(Model m, @Valid @ModelAttribute("customer") User user,
+                                   BindingResult result) {
+                                   if (result.hasErrors()) {
+                                       return "register";
+                                   }
         try {
-            userService.registerNewUser(firstName, lastName, email, address, username, password);
+            userService.registerNewUser(user.getFirstName(), user.getLastName(), user.getEmail(),
+                    user.getAddress(), user.getUsername(), user.getPassword());
             // Om användaren registreras korrekt, skicka användaren till inloggningssidan
             m.addAttribute("registrationSuccess", true);
 
         } catch (UserAlreadyExistsException e) {
-            m.addAttribute("customer", new User());
+            m.addAttribute("customer", new User()); // Återställer användarobjektet
             m.addAttribute("errorMessage", "Username already in use.");
             return "register";
         } catch (Exception e) {
             m.addAttribute("customer", new User()); // Återställer användarobjektet
-            m.addAttribute("errorMessage", "Error during registering.");
+            m.addAttribute("errorMessage", "Error during registration.");
             return "register";
         }
         return "redirect:/login";
