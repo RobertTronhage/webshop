@@ -13,9 +13,10 @@
     <h1>Login</h1>
 
     <!-- Visa felmeddelande om det finns -->
-    <div th:if="${error}" class="error">
-        <p th:text="${error}"></p>
+    <div th:if="${loginErrorMessage}" class="error">
+        <p th:text="${loginErrorMessage}"></p>
     </div>
+
 
     <form id="loginForm" method="post" th:action="@{/login}">
 

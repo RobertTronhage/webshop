@@ -1,13 +1,11 @@
 package se.tronhage.webshop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import se.tronhage.webshop.entity.User;
 import se.tronhage.webshop.enums.Role;
 import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.services.UserService;
@@ -31,7 +29,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password,
+    public String login(@Valid @RequestParam String username,
+                        @RequestParam String password,
                         RedirectAttributes redirectAttributes) {
         Optional<Role> role = userService.authenticate(username, password);
 
@@ -41,7 +40,7 @@ public class LoginController {
             }
             return "redirect:/webshop";
         } else {
-            redirectAttributes.addFlashAttribute("loginError",
+            redirectAttributes.addFlashAttribute("loginErrorMessage",
                     "Invalid username or password");
             return "redirect:/login";
         }

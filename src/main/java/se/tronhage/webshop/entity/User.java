@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import se.tronhage.webshop.enums.Role;
 
 import java.util.ArrayList;
@@ -17,14 +18,17 @@ public class User {
     private Long id;
 
     @NotBlank(message = "Name is required")
+    @Size(min = 2, message = "First name must be at least 2 characters")
     @Column(name = "first_name")
     private String firstName;
 
     @NotBlank(message = "Name is required")
+    @Size(min = 2, message = "Last name must be at least 2 characters")
     @Column(name = "last_name")
     private String lastName;
 
     @NotBlank(message = "address is required")
+    @Size(min = 4, message = "Address must be at least 4 characters")
     private String address;
 
     @NotBlank(message = "Email is required")
@@ -35,9 +39,9 @@ public class User {
     private String username;
 
     @NotBlank(message = "Password is required")
+    @Size(min = 4, message = "Password must be at least 4 characters")
     private String password;
 
-    @NotNull(message = "Role is required") // ? On Admin side
     @Enumerated(EnumType.STRING)
     private Role role;
 

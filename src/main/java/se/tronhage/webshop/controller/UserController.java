@@ -1,15 +1,16 @@
 package se.tronhage.webshop.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import se.tronhage.webshop.entity.Order;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.tronhage.webshop.entity.User;
-import se.tronhage.webshop.exceptions.UserAlreadyExistsException;
 import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.services.UserService;
 
@@ -26,6 +27,7 @@ public class UserController {
     public UserController(UserService userService, UserRepo userRepo) {
         this.userService = userService;
         this.userRepo = userRepo;
+
     }
 
     @GetMapping("/users")
@@ -63,17 +65,19 @@ public class UserController {
     }
 
     @PostMapping("/edituser")
-    public String updateUser(@ModelAttribute User updatedUser, Model m) {
-        System.out.println(updatedUser.getId()); // HÄR ÄR USER ID NULL
+    public String updateUser(@Valid @ModelAttribute("user") User updatedUser,
+                             BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "edituser";
+        }
         try {
             userService.updateUser(updatedUser);
-            m.addAttribute("registrationSuccess", true);
+            redirectAttributes.addFlashAttribute("updateSuccess", "Update successful!");
+            return "redirect:/users?updateSuccess=true";
         } catch (Exception e) {
-            m.addAttribute("user", new User());
-            m.addAttribute("errorMessage", "Error during update.");
-            return "errorPage";
+            redirectAttributes.addFlashAttribute("errorMessage", "Error during update.");
+            return "redirect:/edituser";
         }
-        return "redirect:/users";
     }
 }
 

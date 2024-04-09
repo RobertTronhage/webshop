@@ -60,7 +60,6 @@ public class UserService {
                 existingUser.setPassword(updatedUser.getPassword());
                 existingUser.setRole(updatedUser.getRole());
 
-                System.out.println("NU SKA DEN JU SOPARAARSd");
                 userRepo.save(existingUser);
             }
         }
