@@ -7,34 +7,39 @@
 </head>
 
 <body>
-    <a href="/admin">Admin page</a>
-    <h1>Our Products:</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Description</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="product : ${products}">
-                <td th:text="${product.id}"></td>
-                <td th:text="${product.name}"></td>
-                <td th:text="${product.category}"></td>
-                <td th:text="${product.description}"></td>
-                <td th:text="${product.price} + ' kr'"></td>
-                <td>
-                    <form method="get" action="/editproduct">
-                        <input type="hidden" name="productid" th:value="${product.id}" /> <!-- Hidden input to pass user ID -->
-                        <button type="submit">Edit Product</button> <!-- Edit button -->
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <a href="/admin">Admin page</a>
+
+<h1>Our Products:</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.category}"></td>
+        <td th:text="${product.description}"></td>
+        <td th:text="${product.price} + ' kr'"></td>
+        <td>
+
+                <form method="get" action="/editproduct">
+                    <input type="hidden" name="productid" th:value="${product.id}"/>
+                    <!-- Hidden input to pass user ID -->
+                    <button type="submit">Edit Product</button> <!-- Edit button -->
+                </form>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.tronhage.webshop.entity.Product;
 import se.tronhage.webshop.entity.User;
+import se.tronhage.webshop.enums.Category;
 import se.tronhage.webshop.repository.ProductRepo;
 import se.tronhage.webshop.services.ProductService;
 
@@ -34,10 +35,25 @@ public class ProductController {
     }
 
     @GetMapping("/webshop")
-    public String allProducts(Model m) {
+    public String allProducts(@RequestParam(name="category", required = false,defaultValue = "all") String category, Model m) {
         List<Product> products = productRepo.findAll();
+
+        switch(category){
+            case "putter" -> products = productService.findAllPutters();
+
+            case "midrange" -> products = productService.findAllMidrange();
+
+            case "distance_driver" -> products =  productService.findAllDrivers();
+
+            case "all" -> products = productService.findAllProducts();
+        }
         m.addAttribute("products", products);
         return "webshop";
+    }
+
+    @PostMapping("/webshop")
+    public String allProductsPost(@RequestParam(name="category", required = false,defaultValue = "all") String category){
+        return "redirect:/webshop?category=" + category;
     }
 
     @GetMapping("/editproduct")
@@ -51,6 +67,13 @@ public class ProductController {
         } else {
             return "errorPage";
         }
+    }
+
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam("query") String query, Model model) {
+        List<Product> searchResults = productService.searchProducts(query);
+        model.addAttribute("searchResults", searchResults);
+        return "webshop";
     }
 
     @PostMapping("/editproduct")
