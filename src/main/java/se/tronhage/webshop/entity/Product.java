@@ -3,6 +3,7 @@ package se.tronhage.webshop.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import se.tronhage.webshop.enums.Category;
 
 @Entity
 @Table(name="products")
@@ -17,14 +18,26 @@ public class Product {
     private int price;
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
 
     public Product() {
     }
 
-    public Product(String name, int price, String description) {
+    public Product(String name, int price, String description, Category category) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.category = category;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Long getId() {

@@ -17,6 +17,9 @@
         <label for="name">Name:</label>
         <input type="text" id="name" th:field="*{name}" th:value="${product.name}" required><br/>
 
+        <label for="category">Category:</label>
+        <input type="text" id="category" th:field="*{category}" th:value="${product.category}" required><br/>
+
         <label for="description">Description:</label>
         <input type="text" id="description" th:field="*{description}" th:value="${product.description}" required><br/>
 
@@ -27,6 +30,6 @@
     </form>
 </div>
 
-<a href="addnewproduct.html">Add New Product</a>
+
 </body>
 </html>
