@@ -43,14 +43,11 @@
             <td th:text="${result.getDescription()}"></td>
             <td th:text="${result.getPrice()} + ' kr'"></td>
             <td>
-                <input type="number" id="quantitys" name="quantity" value="1" min="1">
-            </td>
-            <td>
                 <form th:action="@{/add-to-basket}" method="post">
                     <input type="hidden" name="productId" th:value="${result.getId()}">
                     <input type="hidden" name="name" th:value="${result.getName()}">
                     <input type="hidden" name="price" th:value="${result.getPrice()}">
-                    <input type="hidden" name="quantity" th:value="${quantitys}">
+                    <input type="number" name="quantity" value="1" min="1">
                     <button type="submit">Add to Cart</button>
                 </form>
             </td>
@@ -77,9 +74,7 @@
             <td th:text="${p.getCategory()}"></td>
             <td th:text="${p.getDescription()}"></td>
             <td th:text="${p.getPrice()} + ' kr'"></td>
-            <td>
-                <input type="number" id="quantity" name="quantity" value="1" min="1">
-            </td>
+
             <td>
                 <form th:action="@{/add-to-basket}" method="post">
                     <input type="hidden" name="productId" th:value="${p.getId()}">

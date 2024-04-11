@@ -14,10 +14,16 @@
     </form>
 </div>
 
-<h1>Your shopping basket:</h1>
+<div class="webshop">
+    <form action="/webshop" method="post">
+        <button type="submit">continue shopping</button>
+    </form>
+</div>
+
+<h1>your shoppingbasket:</h1>
 
 <div th:if="${#lists.isEmpty(shoppingbasket)}">
-    <p>Nothing to see here</p>
+    <p>nothing to see here</p>
 </div>
 
 <div th:if="${not #lists.isEmpty(shoppingbasket)}">
@@ -28,29 +34,27 @@
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="result : ${shoppingbasket}">
-            <td th:text="${result.getId()}"></td>
-            <td th:text="${result.getName()}"></td>
-            <td th:text="${result.getPrice} + ' kr'"></td>
-            <td th:text="${result.getQuantity()}"></td>
+        <tr th:each="item : ${shoppingbasket.items}">
+            <form th:action="@{/updateQuantity}" method="post">
+            <td th:text="${item.productId}"></td>
+            <td th:text="${item.productName}"></td>
+            <td th:text="${item.unitPrice}"></td>
             <td>
-                <input type="number" id="quantity" name="quantity" value="1" min="1">
+                <input type="number" name="quantity" th:value="${item.quantity}" min="1">
+                <input type="hidden" name="productId" th:value="${item.productId}">
+
             </td>
-            <td>
-                <form th:action="@{/add-to-basket}" method="post">
-                    <input type="hidden" name="productId" th:value="${result.getId()}">
-                    <input type="hidden" name="productName" th:value="${result.getName()}">
-                    <input type="hidden" name="unitPrice" th:value="${result.unitPrice}">
-                    <input type="hidden" name="quantity" th:value="${quantity}">
-                    <button type="submit">Add to Cart</button>
-                </form>
+            <td><button type="submit">Update</button>
             </td>
         </tr>
         </tbody>
+
     </table>
 </div>
+
 </body>
 </html>

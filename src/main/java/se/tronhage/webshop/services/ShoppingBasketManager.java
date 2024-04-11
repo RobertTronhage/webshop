@@ -5,8 +5,11 @@ import org.springframework.web.context.annotation.SessionScope;
 import se.tronhage.webshop.model.BasketItem;
 import se.tronhage.webshop.model.ShoppingBasket;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-//@SessionScope
+@SessionScope
 public class ShoppingBasketManager {
 
     private final ShoppingBasket shoppingBasket;
@@ -18,6 +21,16 @@ public class ShoppingBasketManager {
     public void addItem(Long productId,String name,int price, int quantity) {
         BasketItem item = new BasketItem(productId,name,quantity,price);
         shoppingBasket.addItem(item);
+    }
+
+    public void updateQuantity(Long productId, int quantity) {
+        for (BasketItem item : shoppingBasket.getItems()) {
+            if (item.getProductId().equals(productId)) {
+                // Update the quantity of the item
+                item.setQuantity(quantity);
+                return;
+            }
+        }
     }
 
     public void removeItem(Long productId, int quantity) {

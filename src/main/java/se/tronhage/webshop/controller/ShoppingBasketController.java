@@ -35,6 +35,20 @@ public class ShoppingBasketController {
         return "redirect:/shoppingbasket";
     }
 
+    @PostMapping("/updateQuantity")
+    public String updateQuantity(@RequestParam("productId") Long productId,
+                                 @RequestParam("quantity") int quantity,
+                                 HttpSession session, Model m) {
+
+        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
+
+        // Update the quantity of the item in the shopping basket
+        basketManager.updateQuantity(productId, quantity);
+
+        m.addAttribute("shoppingbasket", shoppingbasket);
+        return "redirect:/shoppingbasket";
+    }
+
     @PostMapping("/remove-from-basket")
     public String removeItemFromBasket(@RequestParam("productId") Long productId,
                                        @RequestParam("quantity") int quantity, HttpSession session, Model m) {
@@ -47,7 +61,7 @@ public class ShoppingBasketController {
     @GetMapping("/shoppingbasket")
     public String showBasket(Model m, HttpSession session) {
         m.addAttribute("shoppingbasket", basketManager.getShoppingBasket());
-        return "shoppingbasket"; // vy-fil som heter basket.html ?
+        return "shoppingbasket";
     }
 }
 
