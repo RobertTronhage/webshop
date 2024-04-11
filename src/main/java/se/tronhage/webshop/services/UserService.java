@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.tronhage.webshop.entity.User;
 import se.tronhage.webshop.enums.Role;
+import se.tronhage.webshop.model.ShoppingBasket;
 import se.tronhage.webshop.repository.UserRepo;
 import se.tronhage.webshop.exceptions.UserAlreadyExistsException;
 import se.tronhage.webshop.exceptions.UserNotFoundException;
@@ -33,7 +34,6 @@ public class UserService {
         newUser.setUsername(username);
         newUser.setPassword(password);
         newUser.setRole(Role.USER);
-        //newUser.setShoppingBasket(new ShoppingBasket()); // ny tom varukorg för användaren
         userRepo.save(newUser);
     }
 

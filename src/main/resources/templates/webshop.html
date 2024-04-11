@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <title>All products</title>
     <link rel="stylesheet" href="/css/productsstyle.css">
-    <div class="orderhistory">
-        <form action="/orderhistory" method="post">
-            <button type="submit">Logout</button>
-        </form>
-    </div>
 </head>
 
 <body>
@@ -48,14 +43,14 @@
             <td th:text="${result.getDescription()}"></td>
             <td th:text="${result.getPrice()} + ' kr'"></td>
             <td>
-                <input type="number" id="quantitys" name="quantitys" value="1" min="1">
+                <input type="number" id="quantitys" name="quantity" value="1" min="1">
             </td>
             <td>
-                <form th:action="@{/addtocart}" method="post">
-                    <input type="hidden" name="productId" th:value="${p.getId()}">
-                    <input type="hidden" name="productName" th:value="${p.getName()}">
-                    <input type="hidden" name="productPrice" th:value="${p.getPrice()}">
-                    <input type="hidden" name="productQuantity" th:value="${quantity}">
+                <form th:action="@{/add-to-basket}" method="post">
+                    <input type="hidden" name="productId" th:value="${result.getId()}">
+                    <input type="hidden" name="name" th:value="${result.getName()}">
+                    <input type="hidden" name="price" th:value="${result.getPrice()}">
+                    <input type="hidden" name="quantity" th:value="${quantitys}">
                     <button type="submit">Add to Cart</button>
                 </form>
             </td>
@@ -86,11 +81,11 @@
                 <input type="number" id="quantity" name="quantity" value="1" min="1">
             </td>
             <td>
-                <form th:action="@{/addtocart}" method="post">
+                <form th:action="@{/add-to-basket}" method="post">
                     <input type="hidden" name="productId" th:value="${p.getId()}">
-                    <input type="hidden" name="productName" th:value="${p.getName()}">
-                    <input type="hidden" name="productPrice" th:value="${p.getPrice()}">
-                    <input type="hidden" name="productQuantity" th:value="${quantity}">
+                    <input type="hidden" name="name" th:value="${p.getName()}">
+                    <input type="hidden" name="price" th:value="${p.getPrice()}">
+                    <input type="number" name="quantity" value="1" min="1">
                     <button type="submit">Add to Cart</button>
                 </form>
             </td>
@@ -102,7 +97,7 @@
 <!-- Logout Button - Behöver placeras bättre!-->
 <div class="logout-button">
     <form action="/logout" method="post">
-        <button type="submit">Logout</button>
+        <button type="submit">Logout</button><br/>
     </form>
 </div>
 

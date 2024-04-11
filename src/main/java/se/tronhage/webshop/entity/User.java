@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import se.tronhage.webshop.enums.Role;
+import se.tronhage.webshop.model.ShoppingBasket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,4 +149,6 @@ public class User {
                 ", orders=" + orders +
                 '}';
     }
+
+
 }

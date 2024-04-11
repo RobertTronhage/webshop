@@ -6,7 +6,7 @@ import se.tronhage.webshop.model.BasketItem;
 import se.tronhage.webshop.model.ShoppingBasket;
 
 @Service
-@SessionScope
+//@SessionScope
 public class ShoppingBasketManager {
 
     private final ShoppingBasket shoppingBasket;
@@ -15,8 +15,9 @@ public class ShoppingBasketManager {
         this.shoppingBasket = new ShoppingBasket();
     }
 
-    public void addItem(BasketItem item) {
-        this.shoppingBasket.addItem(item);
+    public void addItem(Long productId,String name,int price, int quantity) {
+        BasketItem item = new BasketItem(productId,name,quantity,price);
+        shoppingBasket.addItem(item);
     }
 
     public void removeItem(Long productId, int quantity) {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.tronhage.webshop.model.BasketItem;
+import se.tronhage.webshop.model.ShoppingBasket;
 import se.tronhage.webshop.services.ShoppingBasketManager;
 
 @Controller
@@ -20,22 +21,33 @@ public class ShoppingBasketController {
     }
 
     @PostMapping("/add-to-basket")
-    public String addItemToBasket(@ModelAttribute BasketItem item, HttpSession session) {
-        basketManager.addItem(item);
-        return "redirect:/basket";
+    public String addItemToBasket(@RequestParam("productId") Long productId,
+                                  @RequestParam("name") String name,
+                                  @RequestParam("price") String priceStr,
+                                  @RequestParam("quantity") int quantity,
+                                  HttpSession session, Model m) {
+
+        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
+
+        int price = Integer.parseInt(priceStr);
+        basketManager.addItem(productId,name,price,quantity);
+        m.addAttribute("shoppingbasket", shoppingbasket);
+        return "redirect:/shoppingbasket";
     }
 
     @PostMapping("/remove-from-basket")
     public String removeItemFromBasket(@RequestParam("productId") Long productId,
-                                       @RequestParam("quantity") int quantity, HttpSession session) {
+                                       @RequestParam("quantity") int quantity, HttpSession session, Model m) {
+        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
         basketManager.removeItem(productId, quantity);
-        return "redirect:/basket";
+        m.addAttribute("shoppingbasket", shoppingbasket);
+        return "redirect:/shoppingbasket";
     }
 
-    @GetMapping("/basket")
-    public String showBasket(Model model, HttpSession session) {
-        model.addAttribute("basket", basketManager.getShoppingBasket());
-        return "basket"; // vy-fil som heter basket.html ?
+    @GetMapping("/shoppingbasket")
+    public String showBasket(Model m, HttpSession session) {
+        m.addAttribute("shoppingbasket", basketManager.getShoppingBasket());
+        return "shoppingbasket"; // vy-fil som heter basket.html ?
     }
 }
 

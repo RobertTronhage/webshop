@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Shopping basket</title>
+    <link rel="stylesheet" href="/css/productsstyle.css">
 </head>
+
 <body>
 
+<div class="orderhistory">
+    <form action="/orderhistory" method="post">
+        <button type="submit">order history</button>
+    </form>
+</div>
+
+<h1>Your shopping basket:</h1>
+
+<div th:if="${#lists.isEmpty(shoppingbasket)}">
+    <p>Nothing to see here</p>
+</div>
+
+<div th:if="${not #lists.isEmpty(shoppingbasket)}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="result : ${shoppingbasket}">
+            <td th:text="${result.getId()}"></td>
+            <td th:text="${result.getName()}"></td>
+            <td th:text="${result.getPrice} + ' kr'"></td>
+            <td th:text="${result.getQuantity()}"></td>
+            <td>
+                <input type="number" id="quantity" name="quantity" value="1" min="1">
+            </td>
+            <td>
+                <form th:action="@{/add-to-basket}" method="post">
+                    <input type="hidden" name="productId" th:value="${result.getId()}">
+                    <input type="hidden" name="productName" th:value="${result.getName()}">
+                    <input type="hidden" name="unitPrice" th:value="${result.unitPrice}">
+                    <input type="hidden" name="quantity" th:value="${quantity}">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
