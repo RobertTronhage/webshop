@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>All products</title>
     <link rel="stylesheet" href="/css/productsstyle.css">
+    <div class="orderhistory">
+        <form action="/orderhistory" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
 </head>
 
 <body>
@@ -22,7 +27,7 @@
     <button type="submit">Search</button>
 </form>
 
-<!--fritext-sök, varukorg, orderhistorik-->
+<!--fritext-sök, orderhistorik-->
 <div th:if="${not #lists.isEmpty(searchResults)}">
     <h2>Search Results:</h2>
     <table>
@@ -42,6 +47,18 @@
             <td th:text="${result.getCategory()}"></td>
             <td th:text="${result.getDescription()}"></td>
             <td th:text="${result.getPrice()} + ' kr'"></td>
+            <td>
+                <input type="number" id="quantitys" name="quantitys" value="1" min="1">
+            </td>
+            <td>
+                <form th:action="@{/addtocart}" method="post">
+                    <input type="hidden" name="productId" th:value="${p.getId()}">
+                    <input type="hidden" name="productName" th:value="${p.getName()}">
+                    <input type="hidden" name="productPrice" th:value="${p.getPrice()}">
+                    <input type="hidden" name="productQuantity" th:value="${quantity}">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -65,6 +82,18 @@
             <td th:text="${p.getCategory()}"></td>
             <td th:text="${p.getDescription()}"></td>
             <td th:text="${p.getPrice()} + ' kr'"></td>
+            <td>
+                <input type="number" id="quantity" name="quantity" value="1" min="1">
+            </td>
+            <td>
+                <form th:action="@{/addtocart}" method="post">
+                    <input type="hidden" name="productId" th:value="${p.getId()}">
+                    <input type="hidden" name="productName" th:value="${p.getName()}">
+                    <input type="hidden" name="productPrice" th:value="${p.getPrice()}">
+                    <input type="hidden" name="productQuantity" th:value="${quantity}">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

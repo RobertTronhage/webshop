@@ -56,10 +56,25 @@ public class ProductController {
 
 
     @GetMapping("/products")
-    public String listProducts(Model m) {
+    public String listProducts(@RequestParam(name="category", required = false,defaultValue = "all") String category, Model m) {
         List<Product> products = productRepo.findAll();
+
+        switch(category){
+            case "putter" -> products = productService.findAllPutters();
+
+            case "midrange" -> products = productService.findAllMidrange();
+
+            case "distance_driver" -> products =  productService.findAllDrivers();
+
+            case "all" -> products = productService.findAllProducts();
+        }
         m.addAttribute("products", products);
         return "products";
+    }
+
+    @PostMapping("/products")
+    public String listProductsPost(@RequestParam(name="category", required = false,defaultValue = "all") String category){
+        return "redirect:/products?category=" + category;
     }
 
     @GetMapping("/webshop")

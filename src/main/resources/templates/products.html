@@ -11,8 +11,15 @@
 <a href="/admin">Admin page</a>
 
 <h1>Our Products:</h1>
-<form method="get" action="/addnewproduct">
+<form method="post" action="/addnewproduct">
     <button type="submit">Add New Product</button>
+</form>
+
+<form method="get" action="/products">
+    <button type="submit" name="category" value="all">All products</button>
+    <button type="submit" name="category" value="putter">Show putters</button>
+    <button type="submit" name="category" value="midrange">Show Midrange discs</button>
+    <button type="submit" name="category" value="distance_driver">Show Distance drivers</button>
 </form>
 
 <table>
