@@ -8,9 +8,12 @@
 
 <body>
 
-    <a href="/admin">Admin page</a>
+<a href="/admin">Admin page</a>
 
 <h1>Our Products:</h1>
+<form method="get" action="/addnewproduct">
+    <button type="submit">Add New Product</button>
+</form>
 
 <table>
     <thead>
@@ -31,15 +34,16 @@
         <td th:text="${product.price} + ' kr'"></td>
         <td>
 
-                <form method="get" action="/editproduct">
-                    <input type="hidden" name="productid" th:value="${product.id}"/>
-                    <!-- Hidden input to pass user ID -->
-                    <button type="submit">Edit Product</button> <!-- Edit button -->
-                </form>
+            <form method="get" action="/editproduct">
+                <input type="hidden" name="productid" th:value="${product.id}"/>
+                <!-- Hidden input to pass user ID -->
+                <button type="submit">Edit Product</button> <!-- Edit button -->
+            </form>
 
         </td>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>

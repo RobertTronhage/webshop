@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Product</title>
+    <link rel="stylesheet" href="/css/indexstyle.css">
+</head>
+<body>
+
+<h1>Add New Product</h1>
+
+<form th:action="@{/addnewproduct}" th:object="${product}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="${product.name}" required><br/>
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p><br/>
+
+    <label for="price">Price:</label>
+    <input type="text" id="price" th:field="${product.price}" required><br/>
+    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p><br/>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" th:field="${product.description}" required><br/>
+
+    <label for="category">Category:</label>
+    <select id="category" th:field="${product.category}">
+        <option value="PUTTER" th:selected="${product.category == 'PUTTER'}">Putter</option>
+        <option value="MIDRANGE" th:selected="${product.category == 'MIDRANGE'}">Midrange</option>
+        <option value="DISTANCE_DRIVER" th:selected="${product.category == 'DISTANCE_DRIVER'}">Distance driver</option>
+    </select><br/>
+
+    <button type="submit">Save</button>
+</form>
+
+<div th:if="${registrationSuccess}">
+    <p>Registration successful! Please log in</p>
+</div>
+
+<div th:if="${errorMessage}">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+</body>
+</html>

@@ -19,10 +19,11 @@ public class ProductService {
     @Autowired
     ProductRepo productRepo;
 
-    public void createNewProduct(String name, String description, int price){
+    public void createNewProduct(String name, Category category, String description, int price){
         Product p = new Product();
 
         p.setName(name);
+        p.setCategory(category);
         p.setDescription(description);
         p.setPrice(price);
 
