@@ -16,8 +16,11 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    @Autowired
-    ProductRepo productRepo;
+    private final ProductRepo productRepo;
+
+    public ProductService(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }
 
     public void createNewProduct(String name, Category category, String description, int price){
         Product p = new Product();

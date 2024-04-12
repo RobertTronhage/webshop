@@ -37,25 +37,24 @@
             <th>Action</th>
         </tr>
         </thead>
+
         <tbody>
-        <tr th:each="item : ${shoppingbasket.items}">
-            <form th:action="@{/updateQuantity}" method="post">
-            <td th:text="${item.productId}"></td>
-            <td th:text="${item.productName}"></td>
-            <td th:text="${item.unitPrice}"></td>
-            <td>
-                <input type="number" name="quantity" th:value="${item.quantity}" min="1">
-                <input type="hidden" name="productId" th:value="${item.productId}">
-
-            </td>
-            <td><button type="submit">Update</button>
-            </td>
-            </form>
-        </tr>
+            <tr th:each="item : ${shoppingbasket.items}">
+                <form th:action="@{/updateQuantity}" method="post">
+                    <td th:text="${item.productId}"></td>
+                    <td th:text="${item.productName}"></td>
+                    <td th:text="${item.unitPrice}"></td>
+                    <td>
+                        <label>
+                            <input type="number" name="quantity" th:value="${item.quantity}" min="1">
+                        </label>
+                        <input type="hidden" name="productId" th:value="${item.productId}">
+                    </td>
+                    <td><button type="submit">Update</button></td>
+                </form>
+            </tr>
         </tbody>
-
     </table>
 </div>
-
 </body>
 </html>
