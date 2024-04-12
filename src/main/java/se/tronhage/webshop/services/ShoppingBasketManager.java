@@ -6,6 +6,7 @@ import se.tronhage.webshop.model.BasketItem;
 import se.tronhage.webshop.model.ShoppingBasket;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -33,8 +34,27 @@ public class ShoppingBasketManager {
         }
     }
 
-    public void removeItem(Long productId, int quantity) {
-        this.shoppingBasket.removeItem(productId, quantity);
+    public void removeItem(Long productId) {
+        List<BasketItem> items = shoppingBasket.getItems();
+        for (int i = 0; i < items.size(); i++) {
+            BasketItem item = items.get(i);
+            if (item.getProductId().equals(productId)) {
+                items.remove(i);
+                return;
+            }
+        }
+    }
+
+    public int calcTotalPrice(){
+
+        int totalPrice = 0;
+
+        for (BasketItem item : shoppingBasket.getItems()) {
+            int itemPrice = item.getUnitPrice();
+            int itemQuantity = item.getQuantity();
+            totalPrice += itemPrice * itemQuantity;
+        }
+        return totalPrice;
     }
 
     public ShoppingBasket getShoppingBasket() {

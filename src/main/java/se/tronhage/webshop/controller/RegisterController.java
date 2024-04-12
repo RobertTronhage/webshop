@@ -13,18 +13,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se.tronhage.webshop.entity.User;
 import se.tronhage.webshop.exceptions.UserAlreadyExistsException;
 import se.tronhage.webshop.repository.UserRepo;
-import se.tronhage.webshop.services.EmailService;
+//import se.tronhage.webshop.services.EmailService;
 import se.tronhage.webshop.services.UserService;
 
 @Controller
 public class RegisterController {
 
     private final UserService userService;
-    private final EmailService emailService;
+//    private final EmailService emailService;
 
-    public RegisterController(UserService userService, EmailService emailService) {
+    public RegisterController(UserService userService) { //EmailService emailService
         this.userService = userService;
-        this.emailService = emailService;
+//        this.emailService = emailService;
     }
 
     @GetMapping("/register")
@@ -44,8 +44,8 @@ public class RegisterController {
                     user.getAddress(), user.getUsername(), user.getPassword());
 
             // Skicka bekräftelsemail
-            emailService.sendSimpleMessage(user.getEmail(), "Registration Confirmation",
-                    emailService.regMessage(user.getUsername()));
+//            emailService.sendSimpleMessage(user.getEmail(), "Registration Confirmation",
+//                    emailService.regMessage(user.getUsername()));
 
             // Om användaren registreras korrekt, skicka användaren till inloggningssidan
             m.addAttribute("message", "Registration successful! Please log in.");

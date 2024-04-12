@@ -7,6 +7,8 @@ public class BasketItem {
     private int quantity;
     private int unitPrice;
 
+    private int sumPrice;
+
     public BasketItem() {}
 
     public BasketItem(Long productId, String productName, int quantity, int unitPrice) {

@@ -22,33 +22,7 @@ public class ShoppingBasket {
                 return;
             }
         }
-        // Om produkten inte redan finns, lägg till den nya artikeln i listan
         items.add(newItem);
-    }
-
-    public long getTotalPrice() {
-        long total = 0;
-        for (BasketItem item : items) {
-            total += item.getTotalPrice();
-        }
-        return total;
-    }
-
-    public void removeItem(Long productId, int quantity) {
-        Iterator<BasketItem> iterator = items.iterator();
-        while (iterator.hasNext()) {
-            BasketItem item = iterator.next();
-            if (item.getProductId().equals(productId)) {
-                // Minska kvantiteten eller ta bort artikeln om kvantiteten blir 0 eller mindre
-                int newQuantity = item.getQuantity() - quantity;
-                if (newQuantity > 0) {
-                    item.setQuantity(newQuantity);
-                } else {
-                    iterator.remove();
-                }
-                break;
-            }
-        }
     }
 
     public void clear() {

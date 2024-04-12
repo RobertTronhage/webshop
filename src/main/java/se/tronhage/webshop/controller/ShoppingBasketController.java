@@ -51,9 +51,11 @@ public class ShoppingBasketController {
 
     @PostMapping("/remove-from-basket")
     public String removeItemFromBasket(@RequestParam("productId") Long productId,
-                                       @RequestParam("quantity") int quantity, HttpSession session, Model m) {
+                                       @RequestParam("quantity") int quantity,
+                                       HttpSession session, Model m) {
+
         ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
-        basketManager.removeItem(productId, quantity);
+        basketManager.removeItem(productId);
         m.addAttribute("shoppingbasket", shoppingbasket);
         return "redirect:/shoppingbasket";
     }
@@ -61,6 +63,7 @@ public class ShoppingBasketController {
     @GetMapping("/shoppingbasket")
     public String showBasket(Model m, HttpSession session) {
         m.addAttribute("shoppingbasket", basketManager.getShoppingBasket());
+        m.addAttribute("totalprice",basketManager.calcTotalPrice()); //HERE IS WHERE I WANT TO GET THE PRICE
         return "shoppingbasket";
     }
 }
