@@ -28,7 +28,6 @@ public class Order {
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderLine> orderLines = new HashSet<>();
 
-
     public Order() {}
 
     public Order(LocalDateTime orderDate, OrderStatus status, int totalSum, User user) {

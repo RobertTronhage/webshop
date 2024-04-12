@@ -3,10 +3,7 @@ package se.tronhage.webshop.controller;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import se.tronhage.webshop.model.BasketItem;
 import se.tronhage.webshop.model.ShoppingBasket;
 import se.tronhage.webshop.services.ShoppingBasketManager;
@@ -51,7 +48,6 @@ public class ShoppingBasketController {
 
     @PostMapping("/remove-from-basket")
     public String removeItemFromBasket(@RequestParam("productId") Long productId,
-                                       @RequestParam("quantity") int quantity,
                                        HttpSession session, Model m) {
 
         ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();

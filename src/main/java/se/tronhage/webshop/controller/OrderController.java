@@ -43,26 +43,5 @@ public class OrderController {
         return "redirect:/orders?type=" + type;
     }
 
-//    @GetMapping("/activeorders")
-//    public String listActiveOrders(Model m){
-//        List<Order> orders = orderService.findAllConfirmedOrders();
-//        m.addAttribute("orders",orders);
-//        return "activeorders";
-//    }
-//
-//    @GetMapping("/shippedOrders")
-//    public String listShippedOrders(Model m){
-//        List<Order> orders = orderService.findAllShippedOrders();
-//        m.addAttribute("orders",orders);
-//        return "shippedOrders";
-//    }
-//
-//    @GetMapping("/allOrders")
-//    public String listAllOrders(Model m){
-//        List<Order> allOrders = ordersRepo.findAll();
-//        m.addAttribute("orders",allOrders);
-//        return "allorders";
-//    }
-
 }
 
