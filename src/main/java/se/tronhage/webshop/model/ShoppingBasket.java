@@ -1,5 +1,6 @@
 package se.tronhage.webshop.model;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 
 // Obs! Denna klass är inte en Entity-klass och ska inte mappas till en databastabell
+@Component
+@SessionScope
 public class ShoppingBasket {
     private List<BasketItem> items = new ArrayList<>();
 

@@ -49,6 +49,11 @@ public class ProductService {
         return productRepo.findByCategory(Category.DISTANCE_DRIVER);
     }
 
+    public Product getProductById(Long id){
+        Optional<Product> optionalProduct = productRepo.findById(id);
+        return optionalProduct.orElseThrow(ProductNotFoundException::new);
+    }
+
     @Transactional
     public void updateProduct(Product updateProduct) {
         Optional<Product> optionalProduct = productRepo.findById(updateProduct.getId());
@@ -62,7 +67,7 @@ public class ProductService {
 
             productRepo.save(existingProduct);
         } else {
-            throw new ProductNotFoundException("Product not found with ID: " + updateProduct.getId());
+            throw new ProductNotFoundException();
         }
     }
 

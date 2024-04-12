@@ -1,5 +1,6 @@
 package se.tronhage.webshop.controller;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +32,9 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@Valid @RequestParam String username,
                         @RequestParam String password,
-                        RedirectAttributes redirectAttributes) {
-        Optional<Role> role = userService.authenticate(username, password);
+                        RedirectAttributes redirectAttributes,
+                        HttpSession session) {
+        Optional<Role> role = userService.authenticate(username, password, session);
 
         if (role.isPresent()) {
             if (role.get() == Role.ADMIN) {

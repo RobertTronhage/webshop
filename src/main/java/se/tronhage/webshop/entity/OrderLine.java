@@ -7,7 +7,6 @@ public class OrderLine {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private int quantity;
     private int unitPrice;
 
@@ -19,9 +18,14 @@ public class OrderLine {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public OrderLine(int quantity, int unitPrice, Order order, Product product) {
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.orders = order;
+        this.product = product;
+    }
 
     public OrderLine() {}
-
 
     public Long getId() {
         return id;

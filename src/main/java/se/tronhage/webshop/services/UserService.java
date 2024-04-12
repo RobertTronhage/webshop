@@ -1,5 +1,6 @@
 package se.tronhage.webshop.services;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.tronhage.webshop.entity.User;
@@ -75,9 +76,13 @@ public class UserService {
             }
         }
 
-        public Optional<Role> authenticate (String username, String password){
+        public Optional<Role> authenticate (String username, String password, HttpSession session){
             Optional<User> user = userRepo.findByUsername(username);
             if (user.isPresent() && authUser(username, password)) {
+
+                User loggedInUser = user.get();
+                session.setAttribute("loggedInUser",loggedInUser);
+
                 return Optional.of(user.get().getRole());
             }
             return Optional.empty();
