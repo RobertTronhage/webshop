@@ -48,7 +48,7 @@ public class RegisterController {
                     emailService.regMessage(user.getUsername()));
 
             // Om användaren registreras korrekt, skicka användaren till inloggningssidan
-            m.addAttribute("registrationSuccess", true);
+            m.addAttribute("message", "Registration successful! Please log in.");
 
         } catch (UserAlreadyExistsException e) {
             m.addAttribute("customer", new User()); // Återställer användarobjektet

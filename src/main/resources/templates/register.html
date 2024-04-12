@@ -41,8 +41,8 @@
         <button type="submit">Register</button>
     </form>
 
-    <div th:if="${registrationSuccess}">
-        <p>Registration successful! Please log in</p>
+    <div th:if="${message}">
+        <p th:text="${message}"></p>
     </div>
 
     <div th:if="${errorMessage}">
