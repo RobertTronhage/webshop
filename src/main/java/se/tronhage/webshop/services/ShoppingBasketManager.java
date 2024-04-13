@@ -63,6 +63,8 @@ public class ShoppingBasketManager {
         return shoppingBasket;
     }
 
-    // Andra hjälpmetoder relaterade till inköpskorgen kan inkluderas här
+    public void clearBasket() {
+        shoppingBasket.getItems().clear();
+    }
 }
 
