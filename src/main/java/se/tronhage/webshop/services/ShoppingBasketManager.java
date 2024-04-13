@@ -45,10 +45,12 @@ public class ShoppingBasketManager {
         }
     }
 
-    public int calcTotalPrice(){
-
+    public int calcTotalPrice(ShoppingBasket shoppingBasket) {
+        if (shoppingBasket == null) {
+            throw new IllegalArgumentException(
+                    "Shopping cart cannot be null for price calculation.");
+        }
         int totalPrice = 0;
-
         for (BasketItem item : shoppingBasket.getItems()) {
             int itemPrice = item.getUnitPrice();
             int itemQuantity = item.getQuantity();

@@ -16,20 +16,25 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepo orderRepo;
-    private final ShoppingBasket shoppingBasket;
     private final ShoppingBasketManager shoppingBasketManager;
-    private final UserService userService;
 
     @Autowired
-    public OrderService(OrderRepo orderRepo, ShoppingBasket shoppingBasket, ShoppingBasketManager shoppingBasketManager, UserService userService) {
+    public OrderService(OrderRepo orderRepo, ShoppingBasketManager shoppingBasketManager) {
         this.orderRepo = orderRepo;
-        this.shoppingBasket = shoppingBasket;
         this.shoppingBasketManager = shoppingBasketManager;
-        this.userService = userService;
+
     }
 
-    public Order createOrderFromShoppingBasket(ShoppingBasket shoppingBasket, User loggedInUser){
-        Order order = new Order(LocalDateTime.now(),OrderStatus.CONFIRMED, shoppingBasketManager.calcTotalPrice(), loggedInUser);
+    public Order createOrderFromShoppingBasket(ShoppingBasket shoppingBasket, User loggedInUser) {
+        if (shoppingBasket == null) {
+            throw new IllegalArgumentException("Shopping cart cannot be null.");
+        }
+        if (loggedInUser == null) {
+            throw new IllegalArgumentException("User must be logged in to place an order.");
+        }
+        int totalPrice = shoppingBasketManager.calcTotalPrice(shoppingBasket);
+        Order order = new Order(LocalDateTime.now(), OrderStatus.CONFIRMED,
+                totalPrice, loggedInUser);
         orderRepo.save(order);
         return order;
     }

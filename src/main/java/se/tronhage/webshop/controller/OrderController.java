@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.model.IModel;
 import se.tronhage.webshop.entity.Order;
 import se.tronhage.webshop.entity.OrderLine;
 import se.tronhage.webshop.entity.User;
@@ -33,18 +34,29 @@ public class OrderController {
 
     @PostMapping("/place-order")
     public String placeOrder(Model m, HttpSession session){
-
         ShoppingBasket shoppingBasket = (ShoppingBasket) session.getAttribute("shoppingBasket");
-
+        if (shoppingBasket == null || shoppingBasket.getItems().isEmpty()) {
+            m.addAttribute("error",
+                    "Your cart is emtpy Please add items before placing an order.");
+            return "shoppingbasket";
+        }
         User loggedInUser = (User) session.getAttribute("loggedInUser");
-
-        Order order = orderService.createOrderFromShoppingBasket(shoppingBasket, loggedInUser);
-        session.setAttribute("currentorder", order);
-        orderLineService.createOrderLineFromShoppingBasket(shoppingBasket,session);
-
-        m.addAttribute("orderdetails",order);
-
-        return "redirect:/confirmation";
+        if (loggedInUser == null) {
+            m.addAttribute("error",
+                    "You must be logged in to place an order.");
+            return "login";
+        }
+        try {
+            Order order = orderService.createOrderFromShoppingBasket(shoppingBasket, loggedInUser);
+            session.setAttribute("currentorder", order);
+            orderLineService.createOrderLineFromShoppingBasket(shoppingBasket, session);
+            m.addAttribute("orderdetails", order);
+            return "redirect:/confirmation";
+        } catch (Exception e) {
+            m.addAttribute("error",
+                    "An error occurred while placing the order: " + e.getMessage());
+            return "shoppingbasket";
+        }
     }
 
     @GetMapping("/orders")

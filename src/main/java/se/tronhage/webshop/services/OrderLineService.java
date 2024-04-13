@@ -12,29 +12,30 @@ import se.tronhage.webshop.model.ShoppingBasket;
 @Service
 public class OrderLineService {
 
-private final ShoppingBasket shoppingBasket;
-private final ProductService productService;
-
+    private final ProductService productService;
 
     @Autowired
-    public OrderLineService(ShoppingBasket shoppingBasket, ProductService productService) {
-        this.shoppingBasket = shoppingBasket;
+    public OrderLineService(ProductService productService) {
         this.productService = productService;
     }
 
     public void createOrderLineFromShoppingBasket(ShoppingBasket shoppingBasket,
-                                                  HttpSession session){
-
+                                                  HttpSession session) {
+        if (shoppingBasket == null) {
+            throw new IllegalArgumentException(
+                    "No shopping cart available to create order lines.");
+        }
         Order currentOrder = (Order) session.getAttribute("currentorder");
-
-
-
-        for (BasketItem items : shoppingBasket.getItems()){
-            Product product = productService.getProductById(items.getProductId());
+        if (currentOrder == null) {
+            throw new IllegalStateException(
+                    "No current order in session.");
+        }
+        for (BasketItem item : shoppingBasket.getItems()) {
+            Product product = productService.getProductById(item.getProductId());
 
             OrderLine orderLine = new OrderLine(
-                    items.getQuantity(),
-                    items.getUnitPrice(),
+                    item.getQuantity(),
+                    item.getUnitPrice(),
                     currentOrder,
                     product
             );

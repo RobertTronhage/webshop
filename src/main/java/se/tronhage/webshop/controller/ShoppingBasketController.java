@@ -27,39 +27,44 @@ public class ShoppingBasketController {
         ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
 
         int price = Integer.parseInt(priceStr);
-        basketManager.addItem(productId,name,price,quantity);
-        m.addAttribute("shoppingbasket", shoppingbasket);
+        basketManager.addItem(productId, name, price, quantity);
+        session.setAttribute("shoppingbasket", shoppingbasket);
         return "redirect:/shoppingbasket";
     }
 
     @PostMapping("/updateQuantity")
     public String updateQuantity(@RequestParam("productId") Long productId,
                                  @RequestParam("quantity") int quantity,
-                                 HttpSession session, Model m) {
+                                 HttpSession session) {
 
         ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
 
         // Update the quantity of the item in the shopping basket
         basketManager.updateQuantity(productId, quantity);
-
-        m.addAttribute("shoppingbasket", shoppingbasket);
+        session.setAttribute("shoppingbasket", shoppingbasket);
         return "redirect:/shoppingbasket";
     }
 
     @PostMapping("/remove-from-basket")
     public String removeItemFromBasket(@RequestParam("productId") Long productId,
-                                       HttpSession session, Model m) {
+                                       HttpSession session) {
 
         ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
         basketManager.removeItem(productId);
-        m.addAttribute("shoppingbasket", shoppingbasket);
+        session.setAttribute("shoppingbasket", shoppingbasket);
         return "redirect:/shoppingbasket";
     }
 
     @GetMapping("/shoppingbasket")
     public String showBasket(Model m, HttpSession session) {
-        m.addAttribute("shoppingbasket", basketManager.getShoppingBasket());
-        m.addAttribute("totalprice",basketManager.calcTotalPrice()); //HERE IS WHERE I WANT TO GET THE PRICE
+        ShoppingBasket shoppingbasket = (ShoppingBasket) session.getAttribute("shoppingbasket");
+        if (shoppingbasket == null) {
+            shoppingbasket = new ShoppingBasket();
+            session.setAttribute("shoppingbasket", shoppingbasket);
+        }
+        m.addAttribute("shoppingbasket", shoppingbasket);
+        m.addAttribute("totalprice", basketManager.calcTotalPrice(shoppingbasket)); //HERE IS WHERE I
+        // WANT TO GET THE PRICE
         return "shoppingbasket";
     }
 }
