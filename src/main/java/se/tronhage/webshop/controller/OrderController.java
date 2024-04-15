@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.model.IModel;
 import se.tronhage.webshop.entity.Order;
 import se.tronhage.webshop.entity.OrderLine;
+import se.tronhage.webshop.entity.Product;
 import se.tronhage.webshop.entity.User;
+import se.tronhage.webshop.enums.OrderStatus;
 import se.tronhage.webshop.model.ShoppingBasket;
 import se.tronhage.webshop.repository.OrderRepo;
 import se.tronhage.webshop.services.OrderLineService;
@@ -19,6 +21,7 @@ import se.tronhage.webshop.services.ShoppingBasketManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -88,6 +91,25 @@ public class OrderController {
         // You can perform additional actions if needed
         // For example, redirect to another page after processing the POST request
         return "redirect:/orders?type=" + type;
+    }
+
+    @PostMapping("/orders/update-status")
+    public String updateOrders(@RequestParam("orderId") Long orderId,
+                               @RequestParam("status") String status,
+                               Model m) {
+
+        Optional<Order> orderOptional = ordersRepo.findById(orderId);
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            order.setStatus(OrderStatus.valueOf(status));
+
+            orderService.updateOrder(order);
+
+            m.addAttribute("order", order);
+            return "redirect:/orders";
+        } else {
+            return "errorPage";
+        }
     }
 
     @GetMapping("/confirmation")

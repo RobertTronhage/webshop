@@ -33,6 +33,17 @@
         <td th:text="${order.totalSum}"></td>
         <td th:text="${order.user.id}"></td>
         <td th:text="${order.status} + ' '"></td>
+        <td>
+            <form method="post" action="/orders/update-status">
+                <input type="hidden" name="orderId" th:value="${order.id}">
+                <select name="status">
+                    <option value="" selected disabled>Select Status</option>
+                    <option value="CONFIRMED">CONFIRMED</option>
+                    <option value="SHIPPED">SHIPPED</option>
+                </select>
+                <button type="submit">Update Status</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
