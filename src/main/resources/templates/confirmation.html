@@ -9,6 +9,10 @@
 
 <p th:text="${message}"></p>
 
+<p>Order ID: <span th:text="${orderId}"></span></p>
+<p>Order Date: <span th:text="${orderDate}"></span></p>
+<p>Total Price: <span th:text="${totalPrice}"></span></p>
+
 <h2>Order Details</h2>
 
 <table>
@@ -25,8 +29,8 @@
     <tr th:each="orderLine : ${orderLines}">
         <td th:text="${orderLine.product.name}"></td>
         <td th:text="${orderLine.quantity}"></td>
-        <td th:text="${orderLine.unitPrice}"></td>
-        <td th:text="${orderLine.quantity * orderLine.unitPrice}"></td>
+        <td th:text="${orderLine.unitPrice} + 'kr'"></td>
+        <td th:text="${orderLine.quantity * orderLine.unitPrice} + 'kr'"></td>
     </tr>
     </tbody>
 </table>

@@ -114,29 +114,25 @@ public class OrderController {
 
     @GetMapping("/confirmation")
     public String orderConfirmation(HttpSession session, Model m) {
-        // Retrieve the current order from the session
         Order currentOrder = (Order) session.getAttribute("currentorder");
 
-        // Check if the current order is not null
         if (currentOrder != null) {
-            System.out.println("inte är null");
-            // Get the order lines associated with the current order
+
             Set<OrderLine> orderLines = currentOrder.getOrderLines();
 
-            // Add the order lines to the model attribute
             m.addAttribute("orderLines", orderLines);
 
-            // Add any other attributes you need for the confirmation page
+            m.addAttribute("orderId", currentOrder.getId());
+            m.addAttribute("orderDate", currentOrder.getOrderDate());
+            m.addAttribute("totalPrice", currentOrder.getTotalSum());
+
             m.addAttribute("message", "Order was successfully placed!");
 
-            // Clear the shopping basket after placing the order
             shoppingBasketManager.clearBasket();
 
-            // Return the confirmation view
             return "confirmation";
         } else {
 
-            // Handle the case where the current order is not found in the session
             return "redirect:/shoppingbasket"; // Redirect to shopping basket page or handle appropriately
         }
     }

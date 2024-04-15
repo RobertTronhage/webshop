@@ -18,7 +18,7 @@ public class Order {
     @Column(name="order_date")
     private LocalDateTime orderDate;
     @Enumerated(EnumType.STRING)
-    private OrderStatus status; // Exempel: "CONFIRMED", "SHIPPED", "DELIVERED"
+    private OrderStatus status; // "CONFIRMED", "SHIPPED"
     @Column(name="total_sum")
     private int totalSum;
 
