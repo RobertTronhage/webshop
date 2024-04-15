@@ -18,9 +18,11 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepo userRepo;
+    private final EmailService emailService;
 
-    public UserService(UserRepo userRepo) {
+    public UserService(UserRepo userRepo, EmailService emailService) {
         this.userRepo = userRepo;
+        this.emailService = emailService;
     }
 
     public void registerNewUser(String firstName, String lastName, String email, String address, String username, String password) {
@@ -36,6 +38,10 @@ public class UserService {
         newUser.setPassword(password);
         newUser.setRole(Role.USER);
         userRepo.save(newUser);
+
+        // Skicka bekräftelsemail
+        emailService.sendSimpleMessage(newUser.getEmail(), "Registration Confirmation",
+                emailService.regMessage(newUser.getUsername()));
     }
 
     public Optional<User> findById(Long id) {

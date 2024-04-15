@@ -54,5 +54,4 @@ public class OrderLineService {
         }
         currentOrder.setOrderLines(orderLines); // Set all order lines to the currentOrder
     }
-
 }

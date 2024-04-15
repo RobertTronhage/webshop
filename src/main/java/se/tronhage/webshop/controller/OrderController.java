@@ -33,7 +33,8 @@ public class OrderController {
     private final ShoppingBasketManager shoppingBasketManager;
 
     @Autowired
-    public OrderController(OrderRepo ordersRepo, OrderService orderService, OrderLineService orderLineService, ShoppingBasketManager shoppingBasketManager) {
+    public OrderController(OrderRepo ordersRepo, OrderService orderService,
+                           OrderLineService orderLineService, ShoppingBasketManager shoppingBasketManager) {
         this.ordersRepo = ordersRepo;
         this.orderService = orderService;
         this.orderLineService = orderLineService;
@@ -49,7 +50,6 @@ public class OrderController {
             System.out.println("null eller tom korg");
             return "shoppingbasket";
         }
-
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
         if (loggedInUser == null) {
@@ -59,10 +59,7 @@ public class OrderController {
         }
         try {
             Order order = orderService.createOrderFromShoppingBasket(shoppingBasket, loggedInUser);
-
             session.setAttribute("currentorder", order);
-
-            System.out.println("try i place order");
 
             orderLineService.createOrderLineFromShoppingBasket(shoppingBasket, session);
             m.addAttribute("orderdetails", order.getOrderLines());
