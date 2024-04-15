@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import se.tronhage.webshop.enums.OrderStatus;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -126,5 +127,6 @@ public class Order {
     }
 
     public void addOrderLine(OrderLine orderLine) {
+
     }
 }

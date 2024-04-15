@@ -24,11 +24,11 @@ public class ShoppingBasketController {
                                   @RequestParam("quantity") int quantity,
                                   HttpSession session, Model m) {
 
-        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
+//        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
 
         int price = Integer.parseInt(priceStr);
         basketManager.addItem(productId, name, price, quantity);
-        session.setAttribute("shoppingbasket", shoppingbasket);
+        session.setAttribute("shoppingbasket", basketManager.getShoppingBasket());
         return "redirect:/shoppingbasket";
     }
 
@@ -37,11 +37,10 @@ public class ShoppingBasketController {
                                  @RequestParam("quantity") int quantity,
                                  HttpSession session) {
 
-        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
+//        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
 
-        // Update the quantity of the item in the shopping basket
         basketManager.updateQuantity(productId, quantity);
-        session.setAttribute("shoppingbasket", shoppingbasket);
+        session.setAttribute("shoppingbasket", basketManager.getShoppingBasket());
         return "redirect:/shoppingbasket";
     }
 
@@ -49,9 +48,11 @@ public class ShoppingBasketController {
     public String removeItemFromBasket(@RequestParam("productId") Long productId,
                                        HttpSession session) {
 
-        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
+//        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
+
         basketManager.removeItem(productId);
-        session.setAttribute("shoppingbasket", shoppingbasket);
+
+        session.setAttribute("shoppingbasket", basketManager.getShoppingBasket());
         return "redirect:/shoppingbasket";
     }
 

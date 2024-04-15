@@ -26,6 +26,7 @@ public class OrderService {
     }
 
     public Order createOrderFromShoppingBasket(ShoppingBasket shoppingBasket, User loggedInUser) {
+
         if (shoppingBasket == null) {
             throw new IllegalArgumentException("Shopping cart cannot be null.");
         }

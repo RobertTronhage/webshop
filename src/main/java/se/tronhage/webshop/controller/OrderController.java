@@ -15,8 +15,11 @@ import se.tronhage.webshop.model.ShoppingBasket;
 import se.tronhage.webshop.repository.OrderRepo;
 import se.tronhage.webshop.services.OrderLineService;
 import se.tronhage.webshop.services.OrderService;
+import se.tronhage.webshop.services.ShoppingBasketManager;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class OrderController {
@@ -24,23 +27,28 @@ public class OrderController {
     private final OrderRepo ordersRepo;
     private final OrderService orderService;
     private final OrderLineService orderLineService;
+    private final ShoppingBasketManager shoppingBasketManager;
 
     @Autowired
-    public OrderController(OrderRepo ordersRepo, OrderService orderService, OrderLineService orderLineService) {
+    public OrderController(OrderRepo ordersRepo, OrderService orderService, OrderLineService orderLineService, ShoppingBasketManager shoppingBasketManager) {
         this.ordersRepo = ordersRepo;
         this.orderService = orderService;
         this.orderLineService = orderLineService;
+        this.shoppingBasketManager = shoppingBasketManager;
     }
 
     @PostMapping("/place-order")
     public String placeOrder(Model m, HttpSession session){
-        ShoppingBasket shoppingBasket = (ShoppingBasket) session.getAttribute("shoppingBasket");
+        ShoppingBasket shoppingBasket = (ShoppingBasket) session.getAttribute("shoppingbasket");
         if (shoppingBasket == null || shoppingBasket.getItems().isEmpty()) {
             m.addAttribute("error",
                     "Your cart is emtpy Please add items before placing an order.");
+            System.out.println("null eller tom korg");
             return "shoppingbasket";
         }
+
         User loggedInUser = (User) session.getAttribute("loggedInUser");
+
         if (loggedInUser == null) {
             m.addAttribute("error",
                     "You must be logged in to place an order.");
@@ -48,13 +56,18 @@ public class OrderController {
         }
         try {
             Order order = orderService.createOrderFromShoppingBasket(shoppingBasket, loggedInUser);
+
             session.setAttribute("currentorder", order);
+
+            System.out.println("try i place order");
+
             orderLineService.createOrderLineFromShoppingBasket(shoppingBasket, session);
-            m.addAttribute("orderdetails", order);
+            m.addAttribute("orderdetails", order.getOrderLines());
             return "redirect:/confirmation";
         } catch (Exception e) {
             m.addAttribute("error",
                     "An error occurred while placing the order: " + e.getMessage());
+            System.out.println("catch i place order" + e.getMessage());
             return "shoppingbasket";
         }
     }
@@ -75,6 +88,35 @@ public class OrderController {
         // You can perform additional actions if needed
         // For example, redirect to another page after processing the POST request
         return "redirect:/orders?type=" + type;
+    }
+
+    @GetMapping("/confirmation")
+    public String orderConfirmation(HttpSession session, Model m) {
+        // Retrieve the current order from the session
+        Order currentOrder = (Order) session.getAttribute("currentorder");
+
+        // Check if the current order is not null
+        if (currentOrder != null) {
+            System.out.println("inte är null");
+            // Get the order lines associated with the current order
+            Set<OrderLine> orderLines = currentOrder.getOrderLines();
+
+            // Add the order lines to the model attribute
+            m.addAttribute("orderLines", orderLines);
+
+            // Add any other attributes you need for the confirmation page
+            m.addAttribute("message", "Order was successfully placed!");
+
+            // Clear the shopping basket after placing the order
+            shoppingBasketManager.clearBasket();
+
+            // Return the confirmation view
+            return "confirmation";
+        } else {
+
+            // Handle the case where the current order is not found in the session
+            return "redirect:/shoppingbasket"; // Redirect to shopping basket page or handle appropriately
+        }
     }
 
 }

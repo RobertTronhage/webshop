@@ -1,12 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Order Confirmation</title>
 </head>
 <body>
+<h1>Order Confirmation</h1>
 
-<h1>HE LYCKADES!!!!</h1>
+<p th:text="${message}"></p>
+
+<h2>Order Details</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over order lines and display each -->
+    <tr th:each="orderLine : ${orderLines}">
+        <td th:text="${orderLine.product.name}"></td>
+        <td th:text="${orderLine.quantity}"></td>
+        <td th:text="${orderLine.unitPrice}"></td>
+        <td th:text="${orderLine.quantity * orderLine.unitPrice}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/webshop">back to Disc Store</a>
 
 </body>
 </html>
