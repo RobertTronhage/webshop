@@ -15,6 +15,7 @@ import se.tronhage.webshop.entity.User;
 import se.tronhage.webshop.enums.OrderStatus;
 import se.tronhage.webshop.model.ShoppingBasket;
 import se.tronhage.webshop.repository.OrderRepo;
+import se.tronhage.webshop.services.EmailService;
 import se.tronhage.webshop.services.OrderLineService;
 import se.tronhage.webshop.services.OrderService;
 import se.tronhage.webshop.services.ShoppingBasketManager;
@@ -31,14 +32,17 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderLineService orderLineService;
     private final ShoppingBasketManager shoppingBasketManager;
+    private final EmailService emailService;
 
     @Autowired
     public OrderController(OrderRepo ordersRepo, OrderService orderService,
-                           OrderLineService orderLineService, ShoppingBasketManager shoppingBasketManager) {
+                           OrderLineService orderLineService, ShoppingBasketManager shoppingBasketManager,
+                           EmailService emailService) {
         this.ordersRepo = ordersRepo;
         this.orderService = orderService;
         this.orderLineService = orderLineService;
         this.shoppingBasketManager = shoppingBasketManager;
+        this.emailService = emailService;
     }
 
     @PostMapping("/place-order")
@@ -63,6 +67,9 @@ public class OrderController {
 
             orderLineService.createOrderLineFromShoppingBasket(shoppingBasket, session);
             m.addAttribute("orderdetails", order.getOrderLines());
+            // Skicka Orderemail
+            emailService.sendSimpleMessage(loggedInUser.getEmail(), "Order Confirmation",
+                    emailService.orderMessage(loggedInUser.getUsername()));
             return "redirect:/confirmation";
         } catch (Exception e) {
             m.addAttribute("error",

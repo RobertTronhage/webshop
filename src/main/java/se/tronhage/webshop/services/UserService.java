@@ -25,7 +25,8 @@ public class UserService {
         this.emailService = emailService;
     }
 
-    public void registerNewUser(String firstName, String lastName, String email, String address, String username, String password) {
+    public void registerNewUser(String firstName, String lastName, String email, String address,
+                                String username, String password) {
         if (userRepo.existsByUsername(username)) {
             throw new UserAlreadyExistsException("Username already in use.");
         }
