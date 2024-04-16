@@ -40,13 +40,17 @@ public class UserService {
         newUser.setRole(Role.USER);
         userRepo.save(newUser);
 
-        // Skicka bekräftelsemail
+        registerEmail(newUser);
+    }
+
+    // Skicka bekräftelsemail
+    public void registerEmail(User newUser) {
         emailService.sendSimpleMessage(newUser.getEmail(), "Registration Confirmation",
                 emailService.regMessage(newUser.getUsername()));
     }
 
     public Optional<User> findById(Long id) {
-        System.out.println("findbyid i service");
+        System.out.println("findbyid i service"); // ?
         return userRepo.findById(id);
     }
 
@@ -89,7 +93,6 @@ public class UserService {
 
                 User loggedInUser = user.get();
                 session.setAttribute("loggedInUser",loggedInUser);
-
                 return Optional.of(user.get().getRole());
             }
             return Optional.empty();

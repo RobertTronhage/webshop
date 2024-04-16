@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import se.tronhage.webshop.entity.Order;
 import se.tronhage.webshop.entity.OrderLine;
 import se.tronhage.webshop.entity.Product;
+import se.tronhage.webshop.entity.User;
 import se.tronhage.webshop.model.BasketItem;
 import se.tronhage.webshop.model.ShoppingBasket;
 import se.tronhage.webshop.repository.OrderLineRepo;
@@ -20,16 +21,18 @@ public class OrderLineService {
 
     private final ProductService productService;
     private final OrderLineRepo orderLineRepo;
+    private final EmailService emailService;
 
     @Autowired
-    public OrderLineService(ProductService productService, OrderLineRepo orderLineRepo) {
+    public OrderLineService(ProductService productService, OrderLineRepo orderLineRepo,
+                            EmailService emailService) {
         this.productService = productService;
         this.orderLineRepo = orderLineRepo;
+        this.emailService = emailService;
     }
 
     public void createOrderLineFromShoppingBasket(ShoppingBasket shoppingbasket,
                                                   HttpSession session) {
-        System.out.println("skapaorderLINEfrånshoppingbasket");
         if (shoppingbasket == null) {
             throw new IllegalArgumentException(
                     "No shopping cart available to create order lines.");
@@ -53,5 +56,13 @@ public class OrderLineService {
             orderLines.add(orderLine); // Add order line to the list
         }
         currentOrder.setOrderLines(orderLines); // Set all order lines to the currentOrder
+        orderEmail(session);
+    }
+
+    // Skicka Orderemail
+    public void orderEmail(HttpSession session) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        emailService.sendSimpleMessage(loggedInUser.getEmail(), "Order Confirmation",
+                emailService.orderMessage(loggedInUser.getUsername()));
     }
 }

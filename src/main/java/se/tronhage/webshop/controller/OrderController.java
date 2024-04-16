@@ -32,17 +32,14 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderLineService orderLineService;
     private final ShoppingBasketManager shoppingBasketManager;
-    private final EmailService emailService;
 
     @Autowired
     public OrderController(OrderRepo ordersRepo, OrderService orderService,
-                           OrderLineService orderLineService, ShoppingBasketManager shoppingBasketManager,
-                           EmailService emailService) {
+                           OrderLineService orderLineService, ShoppingBasketManager shoppingBasketManager) {
         this.ordersRepo = ordersRepo;
         this.orderService = orderService;
         this.orderLineService = orderLineService;
         this.shoppingBasketManager = shoppingBasketManager;
-        this.emailService = emailService;
     }
 
     @PostMapping("/place-order")
@@ -51,7 +48,6 @@ public class OrderController {
         if (shoppingBasket == null || shoppingBasket.getItems().isEmpty()) {
             m.addAttribute("error",
                     "Your cart is emtpy Please add items before placing an order.");
-            System.out.println("null eller tom korg");
             return "shoppingbasket";
         }
         User loggedInUser = (User) session.getAttribute("loggedInUser");
@@ -67,14 +63,11 @@ public class OrderController {
 
             orderLineService.createOrderLineFromShoppingBasket(shoppingBasket, session);
             m.addAttribute("orderdetails", order.getOrderLines());
-            // Skicka Orderemail
-            emailService.sendSimpleMessage(loggedInUser.getEmail(), "Order Confirmation",
-                    emailService.orderMessage(loggedInUser.getUsername()));
             return "redirect:/confirmation";
+
         } catch (Exception e) {
             m.addAttribute("error",
                     "An error occurred while placing the order: " + e.getMessage());
-            System.out.println("catch i place order" + e.getMessage());
             return "shoppingbasket";
         }
     }
