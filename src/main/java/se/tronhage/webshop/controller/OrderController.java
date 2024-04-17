@@ -42,6 +42,7 @@ public class OrderController {
         this.shoppingBasketManager = shoppingBasketManager;
     }
 
+    // Place order and create orderlines
     @PostMapping("/place-order")
     public String placeOrder(Model m, HttpSession session){
         ShoppingBasket shoppingBasket = (ShoppingBasket) session.getAttribute("shoppingbasket");
@@ -72,6 +73,7 @@ public class OrderController {
         }
     }
 
+    // List all orders for admin
     @GetMapping("/orders")
     public String listOrders(@RequestParam(name = "type", required = false, defaultValue = "all") String type, Model m) {
         List<Order> orders = switch (type) {
@@ -83,13 +85,14 @@ public class OrderController {
         return "orders";
     }
 
+    // Filter orders
     @PostMapping("/orders")
     public String listOrdersPost(@RequestParam(name = "filterType", required = false, defaultValue = "all") String type) {
         // You can perform additional actions if needed
-        // For example, redirect to another page after processing the POST request
         return "redirect:/orders?type=" + type;
     }
 
+    // Update order status
     @PostMapping("/orders/update-status")
     public String updateOrders(@RequestParam("orderId") Long orderId,
                                @RequestParam("status") String status,
@@ -101,7 +104,6 @@ public class OrderController {
             order.setStatus(OrderStatus.valueOf(status));
 
             orderService.updateOrder(order);
-
             m.addAttribute("order", order);
             return "redirect:/orders";
         } else {
@@ -109,27 +111,38 @@ public class OrderController {
         }
     }
 
+    // Show order history for logged in user
+    @GetMapping("/orderhistory")
+    public String showOrderHistory(HttpSession session, Model m) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser != null) {
+            List<Order> orders = orderService.findOrdersByUser(loggedInUser);
+            System.out.println("Orders found: " + orders.size());
+            m.addAttribute("orders", orders);
+            return "orderhistory";
+        } else {
+            return "errorPage";
+        }
+    }
+
+    // Show order confirmation page
     @GetMapping("/confirmation")
     public String orderConfirmation(HttpSession session, Model m) {
         Order currentOrder = (Order) session.getAttribute("currentorder");
 
         if (currentOrder != null) {
-
             Set<OrderLine> orderLines = currentOrder.getOrderLines();
 
             m.addAttribute("orderLines", orderLines);
-
             m.addAttribute("orderId", currentOrder.getId());
             m.addAttribute("orderDate", currentOrder.getOrderDate());
             m.addAttribute("totalPrice", currentOrder.getTotalSum());
-
             m.addAttribute("message", "Order was successfully placed!");
 
             shoppingBasketManager.clearBasket();
 
             return "confirmation";
         } else {
-
             return "redirect:/shoppingbasket"; // Redirect to shopping basket page or handle appropriately
         }
     }

@@ -67,5 +67,7 @@ public class OrderService {
         return orderRepo.findByStatus(OrderStatus.SHIPPED);
     }
 
-
+    public List<Order> findOrdersByUser(User loggedInUser) {
+        return orderRepo.findByUser(loggedInUser);
+    }
 }

@@ -54,4 +54,11 @@ public class EmailServiceTest {
         String expectedMessage = "Thank you for your order!\nHi " + username + ",\nYour order has been successfully received and is now being processed.";
         assertEquals(expectedMessage, emailService.orderMessage(username));
     }
+
+    @Test
+    public void testRegMessageWithEmptyUsername() {
+        String username = "";
+        String expectedMessage = "Thank you for registering!\nHi ,\nYour registration was successful. Welcome to our webshop!";
+        assertEquals(expectedMessage, emailService.regMessage(username));
+    }
 }
