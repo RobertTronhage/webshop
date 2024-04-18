@@ -24,6 +24,11 @@ public class LoginController {
         this.userRepo = userRepo;
     }
 
+    @GetMapping("/")
+    public String redirectToLogin(){
+        return "redirect:/login";
+    }
+
     @GetMapping("/login")
     public String displayLoginForm() {
         return "login";
