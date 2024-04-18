@@ -61,6 +61,7 @@ class ShoppingBasketManagerTest {
     @Test
     void testClearBasket() {
         manager.addItem(1L, "Test Product", 100, 2);
+        assertFalse(manager.getShoppingBasket().getItems().isEmpty());
         manager.clearBasket();
         assertTrue(manager.getShoppingBasket().getItems().isEmpty());
     }
