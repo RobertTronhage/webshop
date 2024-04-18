@@ -24,7 +24,6 @@ public class ShoppingBasketController {
                                   @RequestParam("quantity") int quantity,
                                   HttpSession session, Model m) {
 
-//        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
 
         int price = Integer.parseInt(priceStr);
         basketManager.addItem(productId, name, price, quantity);
@@ -37,7 +36,6 @@ public class ShoppingBasketController {
                                  @RequestParam("quantity") int quantity,
                                  HttpSession session) {
 
-//        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
 
         basketManager.updateQuantity(productId, quantity);
         session.setAttribute("shoppingbasket", basketManager.getShoppingBasket());
@@ -48,7 +46,6 @@ public class ShoppingBasketController {
     public String removeItemFromBasket(@RequestParam("productId") Long productId,
                                        HttpSession session) {
 
-//        ShoppingBasket shoppingbasket = basketManager.getShoppingBasket();
 
         basketManager.removeItem(productId);
 

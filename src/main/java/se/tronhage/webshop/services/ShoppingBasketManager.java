@@ -27,7 +27,6 @@ public class ShoppingBasketManager {
     public void updateQuantity(Long productId, int quantity) {
         for (BasketItem item : shoppingBasket.getItems()) {
             if (item.getProductId().equals(productId)) {
-                // Update the quantity of the item
                 item.setQuantity(quantity);
                 return;
             }
