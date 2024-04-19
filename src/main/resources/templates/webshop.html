@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All products</title>
+    <link rel="stylesheet" href="/css/productsstyle.css">
+</head>
+
+<body>
+
+<div class="orderhistory">
+    <form action="/orderhistory" method="get">
+        <button type="submit">Order History</button>
+    </form>
+</div>
+<div class="Shoppingbasket">
+    <form action="/shoppingbasket" method="get">
+        <button type="submit">Shopping basket</button>
+    </form>
+</div>
+
+<h1>Our Products:</h1>
+
+<form method="post" action="/webshop">
+    <button type="submit" name="category" value="all">All Products</button>
+    <button type="submit" name="category" value="putter">Show Putters</button>
+    <button type="submit" name="category" value="midrange">Show Midrange Discs</button>
+    <button type="submit" name="category" value="distance_driver">Show Distance Drivers</button>
+</form>
+
+<form th:action="@{/search}" method="get">
+    <label>
+        <input type="text" name="query" placeholder="Search products..."/>
+    </label>
+    <button type="submit">Search</button>
+</form>
+
+<!--fritext-sök, orderhistorik-->
+<div th:if="${not #lists.isEmpty(searchResults)}">
+    <h2>Search Results:</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="result : ${searchResults}">
+            <td th:text="${result.getId()}"></td>
+            <td th:text="${result.getName()}"></td>
+            <td th:text="${result.getCategory()}"></td>
+            <td th:text="${result.getDescription()}"></td>
+            <td th:text="${result.getPrice()} + ' kr'"></td>
+            <td>
+                <form th:action="@{/add-to-basket}" method="post">
+                    <input type="hidden" name="productId" th:value="${result.getId()}">
+                    <input type="hidden" name="name" th:value="${result.getName()}">
+                    <input type="hidden" name="price" th:value="${result.getPrice()}">
+                    <label>
+                        <input type="number" name="quantity" value="1" min="1">
+                    </label>
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:if="${#lists.isEmpty(searchResults)}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${products}">
+            <td th:text="${p.getId()}"></td>
+            <td th:text="${p.getName()}"></td>
+            <td th:text="${p.getCategory()}"></td>
+            <td th:text="${p.getDescription()}"></td>
+            <td th:text="${p.getPrice()} + ' kr'"></td>
+
+            <td>
+                <form th:action="@{/add-to-basket}" method="post">
+                    <input type="hidden" name="productId" th:value="${p.getId()}">
+                    <input type="hidden" name="name" th:value="${p.getName()}">
+                    <input type="hidden" name="price" th:value="${p.getPrice()}">
+                    <label>
+                        <input type="number" name="quantity" value="1" min="1">
+                    </label>
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<nav>
+    <form th:action="@{/logout}" method="post" class="form-inline my-2 my-lg-0">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+    </form>
+</nav>
+
+</body>
+</html>

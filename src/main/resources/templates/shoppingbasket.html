@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping basket</title>
+    <link rel="stylesheet" href="/css/productsstyle.css">
+</head>
+
+<body>
+
+<div class="orderhistory">
+    <form action="/orderhistory" method="get">
+        <button type="submit">Order History</button>
+    </form>
+</div>
+
+<div class="webshop">
+    <form action="/webshop" method="post">
+        <button type="submit">Continue Shopping</button>
+    </form>
+</div>
+
+<h1>Your Shopping Basket:</h1>
+
+<div th:if="${#lists.isEmpty(shoppingbasket)}">
+    <p>Nothing to see here</p>
+</div>
+
+<div th:if="${not #lists.isEmpty(shoppingbasket)}">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
+            <th>Total Price</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="item : ${shoppingbasket.items}">
+            <form th:action="@{/updateQuantity}" method="post">
+                <td th:text="${item.productId}"></td>
+                <td th:text="${item.productName}"></td>
+                <td th:text="${item.unitPrice}"></td>
+                <td>
+                    <label>
+                        <input type="number" name="quantity" th:value="${item.quantity}" min="1">
+                    </label>
+                    <input type="hidden" name="productId" th:value="${#strings.toString(item.productId)}">
+                </td>
+                <td>
+                    <button type="submit">Update</button>
+                </td>
+                <td th:text="${item.unitPrice * item.quantity}"></td>
+
+            </form>
+            <div>
+                <form th:action="@{/remove-from-basket(productId=${item.productId})}" th:method="post">
+                    <td>
+                        <button type="submit">REMOVE</button>
+                    </td>
+                </form>
+            </div>
+        </tr>
+        </tbody>
+
+        <tfoot>
+        <tr>
+            <td colspan="5">Total Price of Basket:</td>
+            <td th:text="${totalprice}"></td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <form action="/place-order" method="post">
+        <button class="btn btn-outline-success" type="submit">Place Order</button>
+    </form>
+</div>
+
+</body>
+</html>

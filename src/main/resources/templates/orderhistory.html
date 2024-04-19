@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order History</title>
+    <link rel="stylesheet" href="/css/productsstyle.css">
+</head>
+<body>
+
+<h1>Order History</h1>
+
+<a th:href="@{/shoppingbasket}" class="btn btn-outline-success">Back to Shopping Basket</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>Order date</th>
+        <th>Total sum</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.orderDate}"></td>
+        <td th:text="${order.totalSum}"></td>
+        <td th:text="${order.status}"></td>
+        <td>
+            <ul>
+                <li th:each="line : ${order.orderLines}">
+                    <span th:text="${line.product.name}">Product Name</span>:
+                    <span th:text="${line.quantity}">Quantity</span> x
+                    <span th:text="${line.unitPrice}">Unit Price</span>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

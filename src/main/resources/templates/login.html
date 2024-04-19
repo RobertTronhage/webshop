@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/indexstyle.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Login</h1>
+
+    <!-- Visa felmeddelande om det finns -->
+    <div th:if="${loginErrorMessage}" class="error">
+        <p th:text="${loginErrorMessage}"></p>
+    </div>
+
+
+    <form id="loginForm" method="post" th:action="@{/login}">
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter username"
+               aria-label="Username" required><br/>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter password"
+               aria-label="Password" required><br/>
+
+        <button type="submit" value="Login">Login</button>
+
+    </form>
+
+    <div class="register-link">
+        <p>Don't have an account? <a href="/register">Register here</a>.</p>
+    </div>
+
+</div>
+</body>
+</html>

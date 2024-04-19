@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Edit User</h1>
+
+    <form th:action="@{/edituser}" method="post" th:object="${user}">
+        <input type="hidden" id="id" name="id" th:value="${user.id}"/> <!-- Include hidden input for user ID -->
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" th:field="*{firstName}" required>
+        <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p><br/>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" th:field="*{lastName}" required>
+        <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p><br/>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required>
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p><br/>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" th:field="*{address}" required>
+        <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p><br/>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" th:field="*{username}" required>
+        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p><br/>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" th:value="${user.password}"><br/>
+
+        <!-- Dropdown list for role type -->
+        <label for="role">Role:</label>
+        <select id="role" name="role">
+            <option value="USER" th:selected="*{role == 'USER'}">User</option>
+            <option value="ADMIN" th:selected="*{role == 'ADMIN'}">Admin</option>
+        </select><br/>
+
+        <button type="submit">Update</button>
+    </form>
+
+    <div th:if="${updateSuccess}">
+        <p>Update successful!</p>
+        <script th:src="@{/js/updateSuccess.js}"></script>
+    </div>
+</div>
+</body>
+</html>

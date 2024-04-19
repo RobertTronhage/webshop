@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+    <link rel="stylesheet" href="/css/productsstyle.css">
+</head>
+
+<body>
+<a href="/admin">Admin page</a>
+<h1>Users: </h1>
+
+<form method="post" action="/users">
+    <button type="submit" name="type" value="all">All Users</button>
+    <button type="submit" name="type" value="admin">Show Admins</button>
+    <button type="submit" name="type" value="user">Show Customers</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.address}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.role}"></td>
+        <td>
+        <form method="get" action="/edituser">
+            <input type="hidden" name="userId" th:value="${user.id}" /> <!-- Hidden input to pass user ID -->
+            <button type="submit">Edit</button> <!-- Edit button -->
+        </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
